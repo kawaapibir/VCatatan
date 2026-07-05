@@ -1,0 +1,2917 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0A0C12">
+<meta name="description" content="Ascend — Personal Growth OS. Pelacak self-care, mindset, jurnal, dan Gabut Hub rekomendasi pribadi, 100% offline-first.">
+<title>Ascend — Personal Growth OS</title>
+<link rel="manifest" href="./manifest.json">
+<link rel="icon" href="./icon-192.png">
+<link rel="apple-touch-icon" href="./icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Ascend">
+<meta name="mobile-web-app-capable" content="yes">
+<style>
+/* =========================================================
+   ASCEND — Personal Growth OS
+   iOS-aligned pass: native system-font stack (real SF Pro on
+   iOS/iPadOS, each OS's own equivalent elsewhere — there is no
+   web-loadable "San Francisco" font file, so the system stack
+   *is* the correct, more-authentic implementation), larger
+   continuous corner radii, and Material-style glass surfaces.
+   Domain accents (Gold/Violet/Steel) unchanged; now theme-aware
+   via [data-theme] so both Dark (default) and Light stay on-brand.
+   ========================================================= */
+
+:root{
+  --void:#0A0C12;
+  --charcoal:#151923;
+  --charcoal-2:#1C212E;
+  --charcoal-3:#232939;
+  --hairline:rgba(242,239,232,0.08);
+  --hairline-strong:rgba(242,239,232,0.16);
+  --bone:#F2EFE8;
+  --ash:#9396A5;
+  --ash-dim:#5F6270;
+  --gold:#D9A441;
+  --gold-soft:rgba(217,164,65,0.14);
+  --violet:#8279E0;
+  --violet-soft:rgba(130,121,224,0.16);
+  --steel:#6C93B8;
+  --steel-soft:rgba(108,147,184,0.16);
+  --danger:#E0685F;
+  --danger-soft:rgba(224,104,95,0.14);
+  --success:#5FB98A;
+  --success-soft:rgba(95,185,138,0.14);
+  --radius-s:14px;
+  --radius-m:20px;
+  --radius-l:30px;
+  --shadow-card:0 8px 28px rgba(0,0,0,0.38);
+  --shadow-pop:0 16px 48px rgba(0,0,0,0.5);
+  --safe-top:env(safe-area-inset-top,0px);
+  --safe-bottom:env(safe-area-inset-bottom,0px);
+  --font-display:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  --font-body:-apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  --font-mono:ui-monospace,'SF Mono',SFMono-Regular,Menlo,Consolas,monospace;
+  --glass-bg:rgba(21,25,35,0.72);
+  --glass-border:rgba(255,255,255,0.08);
+  --card-glass-bg:rgba(21,25,35,0.7);
+  --card-glass-border:rgba(255,255,255,0.09);
+}
+
+/* Light theme — same accent hues, deepened slightly for AA contrast
+   on white/near-white surfaces (iOS systemGroupedBackground family). */
+:root[data-theme="light"]{
+  --void:#F2F2F7;
+  --charcoal:#FFFFFF;
+  --charcoal-2:#F5F5F8;
+  --charcoal-3:#EAEAEE;
+  --hairline:rgba(0,0,0,0.08);
+  --hairline-strong:rgba(0,0,0,0.14);
+  --bone:#1C1C1E;
+  --ash:#6E6E73;
+  --ash-dim:#9A9AA0;
+  --gold:#B9822E;
+  --gold-soft:rgba(185,130,46,0.12);
+  --violet:#6259C7;
+  --violet-soft:rgba(98,89,199,0.12);
+  --steel:#4E7BA3;
+  --steel-soft:rgba(78,123,163,0.12);
+  --danger:#D93A32;
+  --danger-soft:rgba(217,58,50,0.10);
+  --success:#2F9E5B;
+  --success-soft:rgba(47,158,91,0.10);
+  --shadow-card:0 4px 20px rgba(0,0,0,0.08);
+  --shadow-pop:0 14px 38px rgba(0,0,0,0.14);
+  --glass-bg:rgba(255,255,255,0.72);
+  --glass-border:rgba(0,0,0,0.06);
+  --card-glass-bg:rgba(255,255,255,0.72);
+  --card-glass-border:rgba(0,0,0,0.07);
+}
+
+/* Smooth cross-fade for browsers without the View Transitions API */
+body, .d-card, .app-header, .bottom-nav, .overlay-sheet, .text-input,
+.rich-editable, .pin-key, .install-banner, .toast, .confirm-box{
+  transition:background-color .32s ease,color .32s ease,border-color .32s ease;
+}
+
+*,*::before,*::after{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;}
+body{
+  margin:0;
+  background:var(--void);
+  color:var(--bone);
+  font-family:var(--font-body);
+  -webkit-font-smoothing:antialiased;
+  overflow:hidden;
+  overscroll-behavior:none;
+}
+button{font-family:inherit;}
+input,textarea{font-family:inherit;color:inherit;}
+::selection{background:var(--gold-soft);color:var(--bone);}
+::-webkit-scrollbar{width:0;height:0;}
+h1,h2,h3{font-family:var(--font-display);font-weight:600;letter-spacing:-0.01em;margin:0;color:var(--bone);}
+p{margin:0;color:var(--ash);line-height:1.55;}
+a{color:inherit;}
+.hidden{display:none !important;}
+@media (prefers-reduced-motion:reduce){*{animation-duration:0.001ms !important;transition-duration:0.001ms !important;}}
+
+/* ---------- Ascend Ring (signature mark), CSS-drawn ---------- */
+.ring-mark{
+  position:relative;
+  display:inline-block;
+  border-radius:50%;
+  border:3px solid transparent;
+  border-top-color:var(--gold);
+  border-right-color:var(--gold);
+  border-left-color:var(--gold);
+  transform:rotate(35deg);
+}
+.ring-mark::after{
+  content:'';
+  position:absolute;
+  width:6px;height:6px;border-radius:50%;
+  background:var(--gold);
+  top:-4.5px;left:50%;transform:translateX(-50%);
+}
+
+/* ================= GATE SCREEN ================= */
+.gate-screen{
+  position:fixed;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  background:
+    radial-gradient(circle at 50% 18%, rgba(217,164,65,0.10), transparent 55%),
+    var(--void);
+  padding:calc(28px + var(--safe-top)) 28px calc(28px + var(--safe-bottom));
+  z-index:500;
+}
+.gate-content{width:100%;max-width:360px;display:flex;flex-direction:column;align-items:center;text-align:center;}
+.gate-logo{width:56px;height:56px;margin-bottom:22px;}
+.gate-content h1{font-size:24px;margin-bottom:8px;}
+.gate-subtitle{font-size:14px;margin-bottom:34px;max-width:280px;}
+.pin-dots{display:flex;gap:16px;margin-bottom:36px;height:16px;}
+.pin-dot{width:14px;height:14px;border-radius:50%;border:1.5px solid var(--hairline-strong);transition:background .15s,border-color .15s,transform .15s;}
+.pin-dot.filled{background:var(--gold);border-color:var(--gold);transform:scale(1.1);}
+.pin-dot.shake{animation:shake .38s;}
+@keyframes shake{0%,100%{transform:translateX(0);}20%{transform:translateX(-7px);}40%{transform:translateX(6px);}60%{transform:translateX(-4px);}80%{transform:translateX(3px);}}
+.gate-error{color:var(--danger);font-size:13px;height:18px;margin-bottom:14px;}
+.pin-keypad{display:grid;grid-template-columns:repeat(3,72px);gap:16px;justify-content:center;}
+.pin-key{
+  width:72px;height:72px;border-radius:50%;border:1px solid var(--hairline);
+  background:var(--charcoal);color:var(--bone);font-size:22px;font-family:var(--font-display);
+  display:flex;align-items:center;justify-content:center;
+}
+.pin-key:active{background:var(--charcoal-3);transform:scale(0.96);}
+.pin-key.key-action{background:transparent;border-color:transparent;color:var(--ash);}
+.gate-reset-link{margin-top:28px;background:none;border:none;color:var(--ash-dim);font-size:13px;text-decoration:underline;padding:6px;}
+
+/* ================= APP SHELL ================= */
+.app-shell{position:fixed;inset:0;display:flex;flex-direction:column;background:var(--void);}
+.app-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:calc(16px + var(--safe-top)) 22px 14px;
+  flex-shrink:0;
+  background:var(--glass-bg);
+  backdrop-filter:blur(20px) saturate(180%);
+  -webkit-backdrop-filter:blur(20px) saturate(180%);
+  border-bottom:1px solid var(--glass-border);
+  position:relative;z-index:20;
+}
+.app-header-brand{display:flex;align-items:center;gap:11px;}
+.app-logo-mark{width:26px;height:26px;}
+.app-header-title{font-family:var(--font-display);font-size:19px;font-weight:600;}
+.install-btn{
+  width:38px;height:38px;border-radius:50%;border:1px solid var(--hairline);
+  background:var(--charcoal);display:flex;align-items:center;justify-content:center;color:var(--gold);
+}
+.install-btn:active{background:var(--charcoal-3);}
+
+.app-main{flex:1;overflow-y:auto;padding:4px 22px calc(96px + var(--safe-bottom));-webkit-overflow-scrolling:touch;}
+.tab-panel{display:none;animation:fadein .22s ease;}
+.tab-panel.active{display:block;}
+@keyframes fadein{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+
+.tab-header{margin:6px 0 22px;}
+.tab-header h2{font-size:32px;font-weight:700;letter-spacing:-0.02em;margin-bottom:4px;}
+.tab-header p{font-size:13.5px;}
+
+.section-block{margin-bottom:32px;}
+.section-title-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.section-title{font-family:var(--font-display);font-size:15px;font-weight:600;color:var(--bone);margin-bottom:14px;text-transform:uppercase;letter-spacing:.06em;font-size:12.5px;color:var(--ash-dim);}
+.section-title-row .section-title{margin-bottom:0;}
+
+/* ---------- Domain-coded card (left accent bar = which life-domain) ---------- */
+.d-card{
+  background:var(--card-glass-bg);
+  border:1px solid var(--card-glass-border);
+  border-left:3px solid var(--gold);
+  border-radius:var(--radius-m);
+  padding:16px 16px 16px 15px;
+  box-shadow:var(--shadow-card);
+  transition:background-color .32s ease,border-color .32s ease,transform .15s ease;
+}
+.d-card:active{transform:scale(0.98);}
+.d-card.accent-violet{border-left-color:var(--violet);}
+.d-card.accent-steel{border-left-color:var(--steel);}
+
+/* Ambient per-domain wash behind the cards — gives the translucent
+   background something soft to sit over (subtle, static, cheap: a
+   gradient, not a blur target) instead of a completely flat void. */
+#tab-fisik{background:radial-gradient(ellipse 100% 240px at 50% 0%, var(--gold-soft), transparent 70%);}
+#tab-mindset{background:radial-gradient(ellipse 100% 240px at 50% 0%, var(--violet-soft), transparent 70%);}
+#tab-vault{background:radial-gradient(ellipse 100% 240px at 50% 0%, var(--steel-soft), transparent 70%);}
+
+/* ---------- Article cards ---------- */
+.article-card-row{display:flex;flex-direction:column;gap:12px;}
+.article-card{display:flex;align-items:center;gap:12px;cursor:pointer;}
+.article-card:active{background:var(--charcoal-2);}
+.article-card-icon{
+  width:40px;height:40px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--gold-soft);color:var(--gold);
+}
+.accent-violet .article-card-icon{background:var(--violet-soft);color:var(--violet);}
+.article-card-body{flex:1;min-width:0;}
+.article-card-title{font-family:var(--font-display);font-size:15.5px;font-weight:600;color:var(--bone);margin-bottom:2px;}
+.article-card-snippet{font-size:12.5px;color:var(--ash-dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.article-card-chevron{color:var(--ash-dim);flex-shrink:0;}
+
+/* ---------- Product list ---------- */
+.product-list{display:flex;flex-direction:column;gap:10px;}
+.product-card{padding:14px 16px;}
+.product-top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px;}
+.product-cat{font-family:var(--font-mono);font-size:10px;letter-spacing:.05em;text-transform:uppercase;color:var(--gold);background:var(--gold-soft);padding:3px 8px;border-radius:99px;}
+.product-price{font-family:var(--font-mono);font-size:11.5px;color:var(--ash);}
+.product-name{font-family:var(--font-display);font-size:15px;font-weight:600;margin-bottom:3px;}
+.product-ing{font-size:11.5px;color:var(--ash-dim);margin-bottom:6px;}
+.product-benefit{font-size:12.5px;color:var(--ash);line-height:1.5;}
+
+/* ---------- Weekly consistency ring (Mindset tab) ---------- */
+.streak-row{display:flex;align-items:center;gap:14px;margin-bottom:26px;padding:14px 16px;}
+.streak-ring{position:relative;width:46px;height:46px;flex-shrink:0;}
+.streak-ring svg{transform:rotate(-90deg);}
+.streak-ring-bg{fill:none;stroke:var(--hairline);stroke-width:4;}
+.streak-ring-fg{fill:none;stroke:var(--violet);stroke-width:4;stroke-linecap:round;transition:stroke-dashoffset .5s ease;}
+.streak-ring-label{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:12px;color:var(--violet);}
+.streak-text strong{display:block;font-family:var(--font-display);font-size:14.5px;color:var(--bone);}
+.streak-text span{font-size:12px;}
+
+/* ---------- Journal list ---------- */
+.journal-list{display:flex;flex-direction:column;gap:10px;}
+.journal-item{display:flex;align-items:flex-start;gap:12px;cursor:pointer;}
+.journal-item:active{background:var(--charcoal-2);}
+.journal-mood{font-size:22px;flex-shrink:0;line-height:1;margin-top:1px;}
+.journal-item-body{flex:1;min-width:0;}
+.journal-item-top{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:3px;}
+.journal-item-title{font-family:var(--font-display);font-size:15px;font-weight:600;color:var(--bone);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.journal-item-date{font-family:var(--font-mono);font-size:10.5px;color:var(--ash-dim);flex-shrink:0;}
+.journal-item-snippet{font-size:12.5px;color:var(--ash-dim);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+
+/* ---------- Notes grid (masonry via CSS columns) ---------- */
+.notes-grid{column-count:2;column-gap:10px;}
+.note-card{
+  break-inside:avoid;margin-bottom:10px;padding:14px 14px 12px;cursor:pointer;
+  border-left-width:3px;position:relative;
+}
+.note-card:active{background:var(--charcoal-2);}
+.note-card.pinned::before{content:'';position:absolute;top:10px;right:10px;width:6px;height:6px;border-radius:50%;background:var(--gold);}
+.note-card-title{font-family:var(--font-display);font-weight:600;font-size:14px;margin-bottom:5px;color:var(--bone);}
+.note-card-body{font-size:12px;color:var(--ash-dim);white-space:pre-wrap;overflow:hidden;max-height:88px;line-height:1.5;}
+.note-card-checklist{list-style:none;margin:0;padding:0;font-size:12px;color:var(--ash-dim);}
+.note-card-checklist li{display:flex;gap:6px;margin-bottom:3px;align-items:flex-start;}
+.note-card-checklist li.checked{text-decoration:line-through;color:var(--ash-dim);opacity:.6;}
+.note-card-img{width:100%;border-radius:8px;margin-top:8px;display:block;object-fit:cover;max-height:120px;}
+.note-card-imgcount{font-family:var(--font-mono);font-size:10px;color:var(--ash-dim);margin-top:6px;}
+
+/* ---------- Vault sub-nav + filter pills ---------- */
+.vault-subnav{position:relative;display:flex;gap:8px;margin-bottom:18px;background:var(--charcoal);border-radius:99px;padding:4px;border:1px solid var(--hairline);}
+.segment-thumb{position:absolute;top:4px;left:4px;width:calc(50% - 6px);height:calc(100% - 8px);background:var(--charcoal-3);border-radius:99px;transition:transform .28s cubic-bezier(.4,0,.2,1);z-index:0;box-shadow:0 1px 5px rgba(0,0,0,0.16);}
+.subnav-btn{position:relative;z-index:1;flex:1;border:none;background:transparent;color:var(--ash);font-size:13px;font-weight:600;padding:9px 0;border-radius:99px;transition:color .2s;}
+.subnav-btn.active{color:var(--bone);}
+.filter-pills{display:flex;gap:8px;margin-bottom:16px;overflow-x:auto;padding-bottom:2px;}
+.pill{flex-shrink:0;border:1px solid var(--hairline);background:var(--charcoal);color:var(--ash);font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:99px;}
+.pill.active{background:var(--steel-soft);border-color:var(--steel);color:var(--steel);}
+
+/* ---------- Vault list ---------- */
+.vault-list{display:flex;flex-direction:column;gap:10px;}
+.vault-item{cursor:pointer;}
+.vault-item:active{background:var(--charcoal-2);}
+.vault-item-top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px;}
+.vault-cat-badge{font-family:var(--font-mono);font-size:10px;letter-spacing:.05em;text-transform:uppercase;color:var(--steel);background:var(--steel-soft);padding:3px 8px;border-radius:99px;}
+.vault-status{font-size:11px;color:var(--ash-dim);}
+.vault-item-title{font-family:var(--font-display);font-size:15.5px;font-weight:600;margin-bottom:2px;}
+.vault-item-creator{font-size:12px;color:var(--ash-dim);margin-bottom:6px;}
+.vault-item-synopsis{font-size:12.5px;color:var(--ash);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+
+/* ---------- Empty states + load more ---------- */
+.empty-state{text-align:center;padding:36px 20px;color:var(--ash-dim);font-size:13px;}
+.empty-state strong{display:block;color:var(--ash);font-family:var(--font-display);font-size:15px;margin-bottom:4px;}
+.btn-load-more{display:block;width:100%;margin-top:14px;padding:12px;border-radius:var(--radius-s);border:1px dashed var(--hairline-strong);background:transparent;color:var(--ash);font-size:13px;font-weight:600;}
+
+/* ================= BOTTOM NAV ================= */
+.bottom-nav{
+  position:fixed;left:0;right:0;bottom:0;
+  display:flex;background:var(--glass-bg);
+  backdrop-filter:blur(20px) saturate(180%);
+  -webkit-backdrop-filter:blur(20px) saturate(180%);
+  border-top:1px solid var(--glass-border);
+  padding:10px 12px calc(10px + var(--safe-bottom));
+  z-index:100;
+}
+.nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;background:none;border:none;color:var(--ash-dim);font-size:10.5px;font-weight:600;padding:6px 0;}
+.nav-btn svg{width:22px;height:22px;}
+.nav-btn.active{color:var(--gold);}
+.nav-btn:nth-child(2).active{color:var(--violet);}
+.nav-btn:nth-child(3).active{color:var(--steel);}
+
+/* ================= OVERLAY (bottom sheet, reused) ================= */
+.overlay{position:fixed;inset:0;z-index:300;display:flex;align-items:flex-end;background:rgba(6,7,11,0.66);}
+.overlay.hidden{display:none;}
+.overlay-sheet{
+  width:100%;max-height:92vh;background:var(--glass-bg);
+  backdrop-filter:blur(24px) saturate(180%);
+  -webkit-backdrop-filter:blur(24px) saturate(180%);
+  border-radius:var(--radius-l) var(--radius-l) 0 0;border:1px solid var(--glass-border);border-bottom:none;
+  display:flex;flex-direction:column;
+  animation:sheetup .28s cubic-bezier(.2,.9,.25,1);
+  padding-bottom:var(--safe-bottom);
+}
+@keyframes sheetup{from{transform:translateY(100%);}to{transform:translateY(0);}}
+.overlay-drag-handle{width:38px;height:4px;border-radius:99px;background:var(--hairline-strong);margin:12px auto 0;flex-shrink:0;}
+.overlay-close{position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:50%;background:var(--charcoal);border:1px solid var(--hairline);color:var(--ash);display:flex;align-items:center;justify-content:center;z-index:2;}
+.overlay-content{overflow-y:auto;padding:20px 24px calc(28px + var(--safe-bottom));-webkit-overflow-scrolling:touch;}
+
+/* ---------- Article reader ---------- */
+.reader-eyebrow{font-family:var(--font-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
+.accent-violet-text{color:var(--violet) !important;}
+.reader-title{font-size:23px;margin-bottom:18px;padding-right:30px;}
+.reader-body h3{font-family:var(--font-display);font-size:15.5px;color:var(--bone);margin:22px 0 8px;}
+.reader-body h3:first-child{margin-top:0;}
+.reader-body p{font-size:14px;color:var(--ash);margin-bottom:10px;}
+.reader-body ul{margin:0 0 4px;padding-left:18px;}
+.reader-body li{font-size:13.5px;color:var(--ash);margin-bottom:9px;line-height:1.55;}
+.reader-body li strong{color:var(--bone);}
+
+/* ---------- Forms (used across journal/note/vault editors) ---------- */
+.form-label{font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--ash-dim);margin:18px 0 8px;display:block;}
+.form-label:first-of-type{margin-top:0;}
+.text-input{
+  width:100%;background:var(--charcoal);border:1px solid var(--hairline);border-radius:var(--radius-s);
+  color:var(--bone);font-size:15px;padding:13px 14px;
+}
+.text-input:focus{outline:none;border-color:var(--hairline-strong);}
+.text-input.title-input{font-family:var(--font-display);font-size:19px;font-weight:600;padding:12px 4px;border:none;background:none;}
+.rich-toolbar{display:flex;gap:6px;margin-bottom:8px;}
+.rich-btn{width:34px;height:34px;border-radius:8px;border:1px solid var(--hairline);background:var(--charcoal);color:var(--ash);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;}
+.rich-editable{
+  min-height:140px;background:var(--charcoal);border:1px solid var(--hairline);border-radius:var(--radius-s);
+  padding:13px 14px;font-size:14.5px;line-height:1.6;color:var(--bone);
+}
+.rich-editable:empty::before{content:attr(data-placeholder);color:var(--ash-dim);}
+.rich-editable:focus{outline:none;border-color:var(--hairline-strong);}
+
+.mood-grid{display:flex;gap:8px;flex-wrap:wrap;}
+.mood-opt{width:52px;height:52px;border-radius:50%;background:var(--charcoal);border:1.5px solid var(--hairline);font-size:22px;display:flex;align-items:center;justify-content:center;}
+.mood-opt.selected{border-color:var(--violet);background:var(--violet-soft);}
+
+.star-row{display:flex;gap:8px;}
+.star-btn{width:38px;height:38px;background:none;border:none;color:var(--hairline-strong);font-size:26px;}
+.star-btn.on{color:var(--gold);}
+
+.color-row{display:flex;gap:10px;flex-wrap:wrap;}
+.color-swatch{width:30px;height:30px;border-radius:50%;border:2px solid transparent;}
+.color-swatch.selected{border-color:var(--bone);}
+
+.checklist-editor{display:flex;flex-direction:column;gap:8px;}
+.checklist-row{display:flex;align-items:center;gap:10px;}
+.checklist-check{width:20px;height:20px;border-radius:6px;border:1.5px solid var(--hairline-strong);flex-shrink:0;display:flex;align-items:center;justify-content:center;color:var(--void);}
+.checklist-check.checked{background:var(--gold);border-color:var(--gold);}
+.checklist-row input{flex:1;background:none;border:none;border-bottom:1px solid var(--hairline);color:var(--bone);font-size:14px;padding:6px 0;}
+.checklist-row input.done{text-decoration:line-through;color:var(--ash-dim);}
+.checklist-remove{background:none;border:none;color:var(--ash-dim);font-size:18px;padding:4px 8px;}
+.add-checklist-item{background:none;border:none;color:var(--ash-dim);font-size:13.5px;padding:6px 0;text-align:left;}
+
+.mode-toggle{position:relative;display:flex;gap:0;margin-bottom:16px;background:var(--charcoal);border-radius:99px;padding:4px;border:1px solid var(--hairline);}
+.mode-toggle .segment-thumb{background:var(--gold-soft);}
+.mode-toggle button{position:relative;z-index:1;flex:1;padding:9px;border-radius:99px;border:none;background:transparent;color:var(--ash);font-size:12.5px;font-weight:600;transition:color .2s;}
+.mode-toggle button.active{color:var(--gold);}
+
+.image-strip{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px;}
+.image-thumb{position:relative;width:76px;height:76px;border-radius:10px;overflow:hidden;}
+.image-thumb img{width:100%;height:100%;object-fit:cover;display:block;}
+.image-thumb-remove{position:absolute;top:3px;right:3px;width:20px;height:20px;border-radius:50%;background:rgba(10,12,18,0.75);color:var(--bone);border:none;font-size:12px;display:flex;align-items:center;justify-content:center;}
+.image-add-btn{width:76px;height:76px;border-radius:10px;border:1.5px dashed var(--hairline-strong);background:none;color:var(--ash-dim);font-size:22px;display:flex;align-items:center;justify-content:center;}
+
+.select-row{display:flex;gap:8px;flex-wrap:wrap;}
+.select-chip{padding:9px 15px;border-radius:99px;border:1px solid var(--hairline);background:var(--charcoal);color:var(--ash);font-size:13px;font-weight:600;}
+.select-chip.selected{background:var(--steel-soft);border-color:var(--steel);color:var(--steel);}
+
+.editor-actions{display:flex;gap:10px;margin-top:26px;}
+.btn-primary{flex:1;padding:14px;border-radius:var(--radius-s);border:none;background:var(--gold);color:var(--void);font-weight:700;font-size:14.5px;}
+.btn-primary:active{opacity:.85;}
+.btn-danger-outline{padding:14px 18px;border-radius:var(--radius-s);border:1px solid var(--danger-soft);background:none;color:var(--danger);font-weight:600;font-size:14px;}
+.btn-small-primary{border:none;background:var(--violet-soft);color:var(--violet);font-weight:700;font-size:12.5px;padding:8px 14px;border-radius:99px;}
+
+.eval-note{font-size:13px;color:var(--ash);background:var(--charcoal);border:1px solid var(--hairline);border-radius:var(--radius-s);padding:12px;min-height:70px;width:100%;resize:vertical;}
+
+/* ---------- FAB ---------- */
+.fab{
+  position:fixed;right:24px;bottom:calc(96px + var(--safe-bottom));
+  width:56px;height:56px;border-radius:50%;border:none;
+  background:var(--gold);color:var(--void);font-size:28px;font-weight:400;line-height:1;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 10px 30px rgba(217,164,65,0.35);
+  z-index:60;
+}
+#vault-notes-panel .fab{background:var(--gold);box-shadow:0 10px 30px rgba(217,164,65,0.35);}
+#vault-reko-panel .fab{background:var(--steel);color:var(--void);box-shadow:0 10px 30px rgba(108,147,184,0.35);}
+
+/* ---------- Toasts ---------- */
+.toast-container{position:fixed;left:0;right:0;bottom:calc(90px + var(--safe-bottom));display:flex;flex-direction:column;align-items:center;gap:8px;z-index:400;pointer-events:none;}
+.toast{background:var(--glass-bg);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);border:1px solid var(--glass-border);color:var(--bone);font-size:13px;padding:11px 18px;border-radius:99px;box-shadow:var(--shadow-pop);animation:toastin .25s ease;}
+@keyframes toastin{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+
+/* ---------- Install banner ---------- */
+.install-banner{
+  position:fixed;left:16px;right:16px;bottom:calc(88px + var(--safe-bottom));
+  background:var(--glass-bg);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);
+  border:1px solid var(--glass-border);border-radius:var(--radius-m);
+  padding:14px 16px;display:flex;align-items:center;gap:12px;box-shadow:var(--shadow-pop);z-index:80;
+  animation:bannerup .4s cubic-bezier(.2,.9,.25,1);
+}
+@keyframes bannerup{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+.install-banner-text{flex:1;display:flex;flex-direction:column;gap:2px;}
+.install-banner-text strong{font-family:var(--font-display);font-size:14px;}
+.install-banner-text span{font-size:11.5px;color:var(--ash-dim);}
+.install-banner-actions{display:flex;gap:8px;flex-shrink:0;}
+.install-banner-actions button{border:none;border-radius:99px;padding:9px 14px;font-size:12.5px;font-weight:700;}
+#install-banner-dismiss{background:none;color:var(--ash-dim);}
+#install-banner-btn{background:var(--gold);color:var(--void);}
+
+/* ---------- Confirm dialog (native-feel, used for destructive actions) ---------- */
+.confirm-backdrop{position:fixed;inset:0;background:rgba(6,7,11,0.7);z-index:600;display:flex;align-items:center;justify-content:center;padding:30px;}
+.confirm-box{background:var(--charcoal-2);border:1px solid var(--hairline-strong);border-radius:var(--radius-m);padding:22px;max-width:320px;width:100%;text-align:center;}
+.confirm-box h3{font-size:16px;margin-bottom:8px;}
+.confirm-box p{font-size:13px;margin-bottom:20px;}
+.confirm-actions{display:flex;gap:10px;}
+.confirm-actions button{flex:1;padding:11px;border-radius:var(--radius-s);border:1px solid var(--hairline-strong);background:none;color:var(--bone);font-weight:600;font-size:13.5px;}
+.confirm-actions .confirm-danger-btn{background:var(--danger);border-color:var(--danger);color:#fff;}
+
+@media (min-width:480px){
+  .pin-keypad{grid-template-columns:repeat(3,76px);}
+  .notes-grid{column-count:3;}
+}
+
+/* ================= UPGRADE PASS — new components ================= */
+
+/* ---------- Boot splash (avoids blank flash while Dexie opens) ---------- */
+.boot-splash{position:fixed;inset:0;z-index:900;background:var(--void);display:flex;align-items:center;justify-content:center;}
+.boot-splash-ring{width:48px;height:48px;animation:splash-pulse 1.1s ease-in-out infinite;}
+@keyframes splash-pulse{0%,100%{opacity:.5;transform:scale(0.94) rotate(35deg);}50%{opacity:1;transform:scale(1.04) rotate(35deg);}}
+
+/* ---------- Header now holds 2 icon buttons ---------- */
+.header-actions{display:flex;align-items:center;gap:8px;}
+
+/* ---------- Onboarding (first run only) ---------- */
+.onboarding-screen{position:fixed;inset:0;z-index:450;background:var(--void);display:flex;flex-direction:column;padding:calc(28px + var(--safe-top)) 28px calc(28px + var(--safe-bottom));}
+.onboarding-slide-wrap{flex:1;display:flex;align-items:center;justify-content:center;}
+.onboarding-slide{text-align:center;max-width:320px;animation:fadein .3s ease;}
+.onboarding-icon{width:64px;height:64px;border-radius:50%;background:var(--gold-soft);color:var(--gold);display:flex;align-items:center;justify-content:center;margin:0 auto 24px;}
+.onboarding-icon svg{width:30px;height:30px;}
+.onboarding-icon.accent-violet{background:var(--violet-soft);color:var(--violet);}
+.onboarding-icon.accent-steel{background:var(--steel-soft);color:var(--steel);}
+.onboarding-slide h2{font-size:22px;margin-bottom:12px;}
+.onboarding-slide p{font-size:14px;line-height:1.6;}
+.onboarding-dots{display:flex;justify-content:center;gap:8px;margin-bottom:22px;}
+.onboarding-dot{width:7px;height:7px;border-radius:50%;background:var(--hairline-strong);transition:all .2s;}
+.onboarding-dot.active{background:var(--gold);width:20px;border-radius:99px;}
+.onboarding-actions{display:flex;align-items:center;justify-content:space-between;gap:12px;}
+.onboarding-skip{background:none;border:none;color:var(--ash-dim);font-size:13.5px;font-weight:600;padding:12px;}
+.onboarding-next{flex:0 0 auto;padding:13px 28px;}
+
+/* ---------- Daily self-care checklist (Tab 1) ---------- */
+.streak-badge{font-family:var(--font-mono);font-size:10.5px;color:var(--gold);background:var(--gold-soft);padding:5px 10px;border-radius:99px;white-space:nowrap;}
+.daily-check-card{padding:6px 16px;}
+.daily-check-row{padding:11px 0;border-bottom:1px solid var(--hairline);}
+.daily-check-row:last-child{border-bottom:none;}
+.daily-check-row span{font-size:14px;color:var(--bone);}
+.daily-check-row span.done{color:var(--ash-dim);text-decoration:line-through;}
+
+/* ---------- Product "tried it" tracker ---------- */
+.product-tried-btn{margin-top:10px;width:100%;padding:9px;border-radius:var(--radius-s);border:1px dashed var(--hairline-strong);background:none;color:var(--ash-dim);font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:6px;}
+.product-tried-btn.on{border:1px solid var(--success);background:var(--success-soft);color:var(--success);}
+
+/* ---------- Search + sort controls ---------- */
+.search-row{margin-bottom:14px;}
+.search-input{font-size:14px;}
+.vault-toolbar{display:flex;gap:8px;margin-bottom:14px;}
+.vault-toolbar .search-input{flex:1;}
+.sort-btn{flex-shrink:0;padding:0 16px;border-radius:var(--radius-s);border:1px solid var(--hairline);background:var(--charcoal);color:var(--ash);font-size:12.5px;font-weight:600;}
+.sort-btn:active{background:var(--charcoal-3);}
+
+/* ---------- Profile / Settings ---------- */
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:26px;}
+.stat-box{background:var(--charcoal);border:1px solid var(--hairline);border-radius:var(--radius-m);padding:16px;text-align:center;}
+.stat-box strong{display:block;font-family:var(--font-display);font-size:22px;color:var(--gold);margin-bottom:4px;}
+.stat-box span{font-size:11px;color:var(--ash-dim);}
+.settings-row{width:100%;display:flex;align-items:center;justify-content:space-between;background:var(--charcoal);border:1px solid var(--hairline);border-radius:var(--radius-s);padding:14px 16px;color:var(--bone);font-size:14px;font-weight:500;margin-bottom:8px;}
+.settings-row:active{background:var(--charcoal-2);}
+.settings-row svg{color:var(--ash-dim);flex-shrink:0;}
+
+/* ---------- Confetti (milestone celebrations) ---------- */
+@keyframes confetti-fall{
+  0%{transform:translateY(0) rotate(0deg);opacity:.95;}
+  100%{transform:translateY(112vh) rotate(280deg);opacity:0;}
+}
+
+/* ================= iOS PASS — additional components ================= */
+
+/* ---------- iOS-style toggle switch (Profile → Mode Gelap) ---------- */
+.ios-switch{width:51px;height:31px;border-radius:99px;background:var(--hairline-strong);border:none;position:relative;flex-shrink:0;padding:0;transition:background-color .25s;}
+.ios-switch.on{background:var(--success);}
+.ios-switch-knob{position:absolute;top:2px;left:2px;width:27px;height:27px;border-radius:50%;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,0.25);transition:transform .25s cubic-bezier(.4,0,.2,1);}
+.ios-switch.on .ios-switch-knob{transform:translateX(20px);}
+
+/* ---------- Gabut Hub external link row on a card ---------- */
+.vault-link-btn{display:inline-flex;align-items:center;gap:4px;margin-top:10px;font-size:12.5px;font-weight:600;color:var(--steel);text-decoration:none;}
+
+/* ================= PROFESSIONAL POLISH PASS ================= */
+
+/* ---------- Tactile press feedback on every tappable control ---------- */
+.fab,.pill,.select-chip,.btn-primary,.btn-danger-outline,.btn-small-primary,
+.product-tried-btn,.nav-btn,.subnav-btn,.mode-toggle button,.article-card,
+.note-card,.vault-item,.rich-btn,.color-swatch,.mood-opt,.star-btn,
+.pin-key,.checklist-check,.settings-row,.search-clear{
+  transition:transform .12s ease;
+}
+.fab:active,.pill:active,.select-chip:active,.btn-primary:active,
+.btn-danger-outline:active,.btn-small-primary:active,.product-tried-btn:active,
+.subnav-btn:active,.mode-toggle button:active,.article-card:active,
+.note-card:active,.vault-item:active,.color-swatch:active,.mood-opt:active,
+.pin-key:active,.settings-row:active,.search-clear:active{
+  transform:scale(0.96);
+}
+.fab:active{transform:scale(0.92);}
+
+/* ---------- Overscroll containment (no rubber-band scroll-chaining) ---------- */
+.app-main,.overlay-content{overscroll-behavior-y:contain;}
+
+/* ---------- Keyboard/accessibility focus ring ---------- */
+button:focus-visible,input:focus-visible,textarea:focus-visible,
+[tabindex]:focus-visible,a:focus-visible{
+  outline:2px solid var(--gold);
+  outline-offset:2px;
+}
+
+/* ---------- Search inputs: icon + clear button ---------- */
+.search-wrap{position:relative;display:flex;align-items:center;}
+.search-icon{position:absolute;left:14px;color:var(--ash-dim);pointer-events:none;}
+.search-wrap .search-input{padding-left:38px;padding-right:36px;}
+.search-clear{
+  position:absolute;right:9px;width:22px;height:22px;border-radius:50%;
+  background:var(--hairline-strong);border:none;color:var(--ash);
+  font-size:13px;line-height:1;display:flex;align-items:center;justify-content:center;
+}
+
+/* ---------- Swipe-to-delete (journal + Gabut Hub rows) ---------- */
+.swipe-wrap{position:relative;overflow:hidden;border-radius:var(--radius-m);}
+.swipe-action-delete{
+  position:absolute;inset:0;background:var(--danger);color:#fff;
+  display:flex;align-items:center;justify-content:flex-end;padding-right:28px;
+  font-weight:700;font-size:13.5px;border-radius:var(--radius-m);
+}
+.swipe-content{position:relative;z-index:1;touch-action:pan-y;}
+
+/* ---------- Consistent vector checkbox glyph in note previews ---------- */
+.mini-check{
+  display:inline-flex;width:13px;height:13px;border-radius:4px;
+  border:1.3px solid var(--ash-dim);align-items:center;justify-content:center;
+  vertical-align:-2px;margin-right:1px;
+}
+.mini-check.on{background:var(--gold);border-color:var(--gold);color:var(--void);}
+.mini-check svg{width:9px;height:9px;}
+
+/* ---------- Light stagger entrance for freshly-rendered list batches ---------- */
+.swipe-wrap,.note-card,.article-card,.product-card{
+  animation:card-in .35s cubic-bezier(.2,.9,.25,1) backwards;
+}
+@keyframes card-in{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+.swipe-wrap:nth-child(2),.note-card:nth-child(2){animation-delay:.03s;}
+.swipe-wrap:nth-child(3),.note-card:nth-child(3){animation-delay:.06s;}
+.swipe-wrap:nth-child(4),.note-card:nth-child(4){animation-delay:.09s;}
+.swipe-wrap:nth-child(5),.note-card:nth-child(5){animation-delay:.12s;}
+.swipe-wrap:nth-child(6),.note-card:nth-child(6){animation-delay:.15s;}
+</style>
+</head>
+<body>
+<div id="boot-splash" class="boot-splash">
+  <div class="ring-mark boot-splash-ring"></div>
+</div>
+
+<div id="gate-screen" class="gate-screen">
+  <div class="gate-content">
+    <div class="gate-logo ring-mark"></div>
+    <h1 id="gate-title">Buat PIN Kamu</h1>
+    <p id="gate-subtitle" class="gate-subtitle">Pilih 4–6 digit PIN untuk mengunci aplikasi ini.</p>
+    <div id="pin-dots" class="pin-dots"></div>
+    <p id="gate-error" class="gate-error"></p>
+    <div id="pin-keypad" class="pin-keypad"></div>
+    <button id="gate-reset-link" class="gate-reset-link hidden" type="button">Lupa PIN? Reset data lokal</button>
+  </div>
+</div>
+
+<div id="onboarding-screen" class="onboarding-screen hidden">
+  <div class="onboarding-slide-wrap" id="onboarding-slides"></div>
+  <div class="onboarding-dots" id="onboarding-dots"></div>
+  <div class="onboarding-actions">
+    <button id="onboarding-skip" type="button" class="onboarding-skip">Lewati</button>
+    <button id="onboarding-next" type="button" class="btn-primary onboarding-next">Lanjut</button>
+  </div>
+</div>
+
+<div id="app-shell" class="app-shell hidden">
+  <header class="app-header">
+    <div class="app-header-brand">
+      <div class="app-logo-mark ring-mark"></div>
+      <span class="app-header-title">Ascend</span>
+    </div>
+    <div class="header-actions">
+      <button id="install-btn" class="install-btn hidden" type="button" aria-label="Install aplikasi">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg>
+      </button>
+      <button id="profile-btn" class="install-btn" type="button" aria-label="Profil dan Pengaturan">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main class="app-main" id="app-main">
+    <section id="tab-fisik" class="tab-panel active">
+      <div class="tab-header">
+        <h2>Fisik &amp; Self-Care</h2>
+        <p>Pusat perawatan tubuh — dari rutinitas harian sampai perawatan rambut.</p>
+      </div>
+      <div class="section-block">
+        <div class="section-title-row">
+          <p class="section-title" style="margin:0;">Checklist Harian</p>
+          <span class="streak-badge" id="daily-check-streak">Mulai streak-mu hari ini</span>
+        </div>
+        <div class="d-card daily-check-card">
+          <div class="checklist-editor" id="daily-check-items"></div>
+        </div>
+      </div>
+      <div class="section-block">
+        <p class="section-title">Artikel</p>
+        <div id="fisik-articles-list" class="article-card-row"></div>
+      </div>
+      <div class="section-block">
+        <p class="section-title">Rekomendasi Produk Rambut</p>
+        <div id="fisik-products-list" class="product-list"></div>
+      </div>
+    </section>
+
+    <section id="tab-mindset" class="tab-panel">
+      <div class="tab-header">
+        <h2>Mindset &amp; Jurnal</h2>
+        <p>Pusat refleksi dan evaluasi diri — bangun cara berpikir yang berkembang.</p>
+      </div>
+      <div class="section-block">
+        <p class="section-title">Artikel</p>
+        <div id="mindset-articles-list" class="article-card-row"></div>
+      </div>
+      <div class="section-block">
+        <div class="section-title-row">
+          <p class="section-title" style="margin:0;">Jurnal Personal</p>
+          <button id="fab-journal" class="btn-small-primary" type="button">+ Tulis</button>
+        </div>
+        <div class="d-card accent-violet streak-row" id="streak-row">
+          <div class="streak-ring">
+            <svg width="46" height="46" viewBox="0 0 46 46">
+              <circle class="streak-ring-bg" cx="23" cy="23" r="19"/>
+              <circle class="streak-ring-fg" id="streak-ring-fg" cx="23" cy="23" r="19" stroke-dasharray="119.4" stroke-dashoffset="119.4"/>
+            </svg>
+            <div class="streak-ring-label" id="streak-ring-label">0/7</div>
+          </div>
+          <div class="streak-text">
+            <strong>Konsistensi minggu ini</strong>
+            <span id="streak-caption">Belum ada jurnal minggu ini</span>
+          </div>
+        </div>
+        <div id="journal-list" class="journal-list"></div>
+        <div id="journal-empty" class="empty-state hidden">
+          <strong>Belum ada jurnal</strong>
+          Mulai tulis refleksi pertamamu hari ini.
+        </div>
+        <button id="journal-load-more" class="btn-load-more hidden" type="button">Muat Lebih Banyak</button>
+      </div>
+    </section>
+
+    <section id="tab-vault" class="tab-panel">
+      <div class="tab-header">
+        <h2>The Vault</h2>
+        <p>Gudang catatan bebas dan daftar rekomendasi pribadimu.</p>
+      </div>
+      <div class="vault-subnav" id="vault-subnav">
+        <span class="segment-thumb" id="vault-subnav-thumb"></span>
+        <button id="subnav-notes" class="subnav-btn active" type="button" data-panel="vault-notes-panel">Catatan</button>
+        <button id="subnav-reko" class="subnav-btn" type="button" data-panel="vault-reko-panel">Gabut Hub</button>
+      </div>
+
+      <div id="vault-notes-panel" class="vault-subpanel">
+        <div class="search-row">
+          <div class="search-wrap">
+            <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+            <input type="text" id="notes-search" class="text-input search-input" placeholder="Cari catatan...">
+            <button type="button" class="search-clear hidden" id="notes-search-clear" aria-label="Hapus pencarian">×</button>
+          </div>
+        </div>
+        <div id="notes-grid" class="notes-grid"></div>
+        <div id="notes-empty" class="empty-state hidden">
+          <strong>Belum ada catatan</strong>
+          Ketuk tombol + untuk membuat catatan pertamamu.
+        </div>
+        <button id="notes-load-more" class="btn-load-more hidden" type="button">Muat Lebih Banyak</button>
+        <button id="fab-note" class="fab" type="button" aria-label="Catatan baru">+</button>
+      </div>
+
+      <div id="vault-reko-panel" class="vault-subpanel hidden">
+        <div class="vault-toolbar">
+          <div class="search-wrap" style="flex:1;">
+            <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+            <input type="text" id="vault-search" class="text-input search-input" placeholder="Cari judul atau penulis...">
+            <button type="button" class="search-clear hidden" id="vault-search-clear" aria-label="Hapus pencarian">×</button>
+          </div>
+          <button type="button" id="vault-sort-btn" class="sort-btn">Terbaru</button>
+        </div>
+        <div id="vault-filter-pills" class="filter-pills">
+          <button class="pill active" type="button" data-filter="semua">Semua</button>
+          <button class="pill" type="button" data-filter="artikel">Artikel</button>
+          <button class="pill" type="button" data-filter="buku">Buku</button>
+          <button class="pill" type="button" data-filter="video">Video</button>
+          <button class="pill" type="button" data-filter="film">Film</button>
+        </div>
+        <div id="vault-list" class="vault-list"></div>
+        <div id="vault-empty" class="empty-state hidden">
+          <strong>Gabut Hub masih kosong</strong>
+          Tambahkan artikel, buku, video, atau film favoritmu.
+        </div>
+        <button id="fab-vault" class="fab" type="button" aria-label="Item baru">+</button>
+      </div>
+    </section>
+  </main>
+
+  <nav class="bottom-nav" id="bottom-nav">
+    <button id="nav-fisik" class="nav-btn active" type="button" data-tab="tab-fisik">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 4 13V7a1 1 0 0 1 1-1h6a7 7 0 0 1 7 7 7 7 0 0 1-7 7Z"/><path d="M11 20v-9"/><path d="M4 10h4"/></svg>
+      Fisik
+    </button>
+    <button id="nav-mindset" class="nav-btn" type="button" data-tab="tab-mindset">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/></svg>
+      Mindset
+    </button>
+    <button id="nav-vault" class="nav-btn" type="button" data-tab="tab-vault">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="5" rx="1.2"/><path d="M4 9v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9"/><path d="M10 13.5h4"/></svg>
+      Vault
+    </button>
+  </nav>
+</div>
+
+<div id="overlay" class="overlay hidden">
+  <div class="overlay-sheet" id="overlay-sheet">
+    <div class="overlay-drag-handle" id="overlay-drag-handle"></div>
+    <button id="overlay-close" class="overlay-close" type="button" aria-label="Tutup">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="M6 6l12 12"/></svg>
+    </button>
+    <div id="overlay-content" class="overlay-content"></div>
+  </div>
+</div>
+
+<div id="toast-container" class="toast-container"></div>
+
+<div id="install-banner" class="install-banner hidden">
+  <div class="install-banner-text">
+    <strong>Install Ascend</strong>
+    <span>Akses lebih cepat dari Home Screen kamu</span>
+  </div>
+  <div class="install-banner-actions">
+    <button id="install-banner-dismiss" type="button">Nanti</button>
+    <button id="install-banner-btn" type="button">Install</button>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dexie/4.2.0/dexie.min.js"></script>
+<!-- Optional cloud sync (off by default, see CLOUD SYNC section in app code):
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+-->
+<script>
+/* =========================================================
+   SECTION: CONFIG
+   Global constants. Safe to tweak without touching logic below.
+   ========================================================= */
+const CONFIG = {
+  appName: 'Ascend',
+  appVersion: '1.1.0',
+  dbName: 'AscendDB',
+  pinMinLength: 4,
+  pinMaxLength: 6,
+  maxFailedAttempts: 5,
+  lockoutMs: 30000,
+  pageSize: 10,          // lazy-load batch size for journal & notes
+  imageMaxDimension: 1280,
+  imageQuality: 0.72,
+  swPath: './sw.js'
+};
+
+const MOODS = [
+  { key: 'senang', emoji: '😄', label: 'Senang' },
+  { key: 'tenang', emoji: '😌', label: 'Tenang' },
+  { key: 'biasa',  emoji: '😐', label: 'Biasa' },
+  { key: 'sedih',  emoji: '😔', label: 'Sedih' },
+  { key: 'kesal',  emoji: '😤', label: 'Kesal' },
+  { key: 'cemas',  emoji: '😰', label: 'Cemas' }
+];
+
+const NOTE_COLORS = ['#151923', '#3A2E1E', '#2C2517', '#1E2A24', '#1E2530', '#231E2E', '#2E1E22'];
+
+const VAULT_CATEGORIES = [
+  { key: 'artikel', label: 'Artikel' },
+  { key: 'buku', label: 'Buku' },
+  { key: 'video', label: 'Video' },
+  { key: 'film', label: 'Film' }
+];
+
+// "Gabut Hub" — each category asks for different fields, driven from one
+// table so the editor form and the card renderer both stay in sync
+// automatically when a category is added or changed.
+const GABUT_FIELD_SCHEMA = {
+  artikel: [
+    { key: 'source', label: 'Sumber', placeholder: 'Nama situs, penulis, dsb.' },
+    { key: 'link', label: 'Tautan', placeholder: 'https://...', type: 'url' }
+  ],
+  buku: [
+    { key: 'author', label: 'Penulis', placeholder: 'Nama penulis' },
+    { key: 'notes', label: 'Catatan / Alasan Dibaca', placeholder: 'Kenapa buku ini masuk daftar?', multiline: true }
+  ],
+  video: [
+    { key: 'link', label: 'Tautan Video', placeholder: 'https://youtube.com/...', type: 'url' }
+  ],
+  film: [
+    { key: 'platform', label: 'Platform Streaming', placeholder: 'Netflix, Disney+, dll.' }
+  ]
+};
+
+// Daily interactive self-care checklist (Tab 1) — turns the article's
+// checklist section into something the user actually taps through.
+const CHECKLIST_ITEMS = [
+  { key: 'tidur', label: 'Tidur cukup (7–9 jam)' },
+  { key: 'hidrasi', label: 'Minum air putih ± 8 gelas' },
+  { key: 'kebersihan', label: 'Jaga kebersihan diri' },
+  { key: 'refleksi', label: 'Refleksi singkat malam ini' }
+];
+
+// Streak lengths (in days) that trigger a small celebration (confetti + haptic).
+const STREAK_MILESTONES = [3, 7, 14, 30, 60, 100];
+/* =========================================================
+   SECTION: DATABASE (Dexie.js / IndexedDB)
+   Tables:
+     settings    key -> value                (PIN hash/salt, lockout, onboarding, cloud sync config)
+     journal     ++id, timestamp, mood       (personal daily journal, CRUD)
+     notes       ++id, updatedAt, pinned     (Keep-style notes, CRUD)
+     vaultItems  ++id, category, createdAt   (books/films/articles, CRUD, seeded with 5 books)
+     products    ++id, category              (hair-care catalog, seeded; supports a "tried" toggle)
+     dailyCheck  date                        (v2 — one row per calendar day, interactive self-care checklist)
+   Versioned with Dexie's standard migration pattern: v1 kept as-is,
+   v2 only adds the new dailyCheck store.
+   ========================================================= */
+const db = new Dexie(CONFIG.dbName);
+
+db.version(1).stores({
+  settings: 'key',
+  journal: '++id, timestamp, mood',
+  notes: '++id, updatedAt, pinned',
+  vaultItems: '++id, category, createdAt',
+  products: '++id, category'
+});
+
+db.version(2).stores({
+  settings: 'key',
+  journal: '++id, timestamp, mood',
+  notes: '++id, updatedAt, pinned',
+  vaultItems: '++id, category, createdAt',
+  products: '++id, category',
+  dailyCheck: 'date'
+});
+
+// v3: "Gabut Hub" gives each category its own fields (source/link for
+// Artikel, author/notes for Buku, link for Video, platform for Film)
+// instead of one generic shape. This upgrade remaps any rows created
+// under the old generic schema so existing data isn't lost.
+db.version(3).stores({
+  settings: 'key',
+  journal: '++id, timestamp, mood',
+  notes: '++id, updatedAt, pinned',
+  vaultItems: '++id, category, createdAt',
+  products: '++id, category',
+  dailyCheck: 'date'
+}).upgrade(tx => {
+  return tx.table('vaultItems').toCollection().modify(item => {
+    if (item.author !== undefined || item.source !== undefined || item.platform !== undefined) return;
+    const combinedNotes = [item.synopsis, item.reason].filter(Boolean).join(' — ');
+    if (item.category === 'buku') {
+      item.author = item.creator || '';
+      item.notes = combinedNotes;
+    } else if (item.category === 'film') {
+      item.platform = '';
+      item.notes = combinedNotes;
+    } else if (item.category === 'artikel') {
+      item.source = item.creator || '';
+      item.link = '';
+      item.notes = combinedNotes;
+    }
+    delete item.creator;
+    delete item.synopsis;
+    delete item.reason;
+    delete item.status;
+  });
+});
+
+/* ---- Seed: 5 professional hair-care products (Tab 1) ---- */
+const SEED_PRODUCTS = [
+  {
+    category: 'Shampoo',
+    name: 'Keratin Repair Shampoo',
+    mainIngredient: 'Keratin + Argan Oil',
+    benefit: 'Memperbaiki struktur rambut yang rusak akibat styling panas, melembutkan helai, dan mengurangi kusut tanpa membuat rambut lepek.',
+    priceRange: 'Rp 45.000 – Rp 95.000',
+    tried: false
+  },
+  {
+    category: 'Conditioner',
+    name: 'Deep Moisture Conditioner',
+    mainIngredient: 'Argan Oil + Shea Butter',
+    benefit: 'Mengunci kelembapan di batang rambut dan melapisi kutikula supaya rambut lebih berkilau dan mudah diatur setelah keramas.',
+    priceRange: 'Rp 40.000 – Rp 90.000',
+    tried: false
+  },
+  {
+    category: 'Hair Serum/Vitamin',
+    name: 'Biotin Growth Serum',
+    mainIngredient: 'Biotin + Niacinamide',
+    benefit: 'Merangsang folikel agar pertumbuhan rambut lebih optimal, memperkuat akar, dan mengurangi rambut patah di tengah helai.',
+    priceRange: 'Rp 60.000 – Rp 150.000',
+    tried: false
+  },
+  {
+    category: 'Tonic',
+    name: 'Anti-Hair Fall Scalp Tonic',
+    mainIngredient: 'Ginseng + Kafein',
+    benefit: 'Melancarkan sirkulasi darah di kulit kepala, menghambat kerontokan, dan menyegarkan scalp yang mudah berminyak.',
+    priceRange: 'Rp 35.000 – Rp 85.000',
+    tried: false
+  },
+  {
+    category: 'Scrub',
+    name: 'Exfoliating Scalp Scrub',
+    mainIngredient: 'Kitosan + Tea Tree Oil',
+    benefit: 'Mengangkat sel kulit mati dan residu produk di kulit kepala, membantu mengurangi ketombe, membuat scalp lebih bersih dan bernapas.',
+    priceRange: 'Rp 50.000 – Rp 110.000',
+    tried: false
+  }
+];
+
+/* ---- Seed: 5 legendary self-improvement books (Tab 3 → Vault) ---- */
+const SEED_VAULT_BOOKS = [
+  {
+    category: 'buku',
+    title: 'Atomic Habits',
+    author: 'James Clear',
+    notes: 'Membahas bagaimana perubahan kecil dan konsisten pada kebiasaan harian bisa menghasilkan transformasi besar, lewat kerangka cue → craving → response → reward. Wajib dibaca karena mengajarkan sistem kebiasaan yang realistis, bukan sekadar motivasi sesaat.'
+  },
+  {
+    category: 'buku',
+    title: 'Mindset: The New Psychology of Success',
+    author: 'Carol S. Dweck',
+    notes: 'Memperkenalkan konsep fixed mindset vs growth mindset, dan bagaimana cara pandang terhadap kemampuan diri menentukan seberapa jauh seseorang bisa berkembang. Fondasi utama untuk memahami growth mindset secara ilmiah.'
+  },
+  {
+    category: 'buku',
+    title: 'Filosofi Teras',
+    author: 'Henry Manampiring',
+    notes: 'Mengenalkan filsafat Stoa dengan bahasa yang membumi dan konteks Indonesia — cara memilah hal yang bisa & tidak bisa dikontrol demi ketenangan pikiran. Melatih self-control dan mental tangguh lewat prinsip Stoic klasik.'
+  },
+  {
+    category: 'buku',
+    title: "Can't Hurt Me",
+    author: 'David Goggins',
+    notes: 'Kisah hidup David Goggins dari kondisi penuh keterbatasan menjadi salah satu manusia paling tangguh secara mental dan fisik, lengkap dengan metode "40% Rule"-nya. Untuk yang butuh dorongan keras soal disiplin ekstrem.'
+  },
+  {
+    category: 'buku',
+    title: 'Deep Work',
+    author: 'Cal Newport',
+    notes: 'Menjelaskan mengapa kemampuan fokus mendalam tanpa distraksi menjadi skill langka dan bernilai di era serba notifikasi, lengkap dengan cara melatihnya. Penting untuk yang ingin kerja/belajar fokus, bukan sekadar terlihat sibuk.'
+  }
+];
+
+async function seedDatabaseIfEmpty() {
+  const productCount = await db.products.count();
+  if (productCount === 0) {
+    await db.products.bulkAdd(SEED_PRODUCTS);
+  }
+  const vaultCount = await db.vaultItems.count();
+  if (vaultCount === 0) {
+    const now = Date.now();
+    const seeded = SEED_VAULT_BOOKS.map((item, i) => ({
+      ...item,
+      createdAt: now + i,
+      updatedAt: now + i
+    }));
+    await db.vaultItems.bulkAdd(seeded);
+  }
+}
+/* =========================================================
+   SECTION: UTILS
+   Shared helpers used across every feature module.
+   ========================================================= */
+const ICONS = {
+  chevron: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>',
+  check: '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>',
+  plus: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg>'
+};
+
+const Utils = {
+  escapeHtml(str) {
+    if (str === undefined || str === null) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  },
+
+  formatDate(ts) {
+    const d = new Date(ts);
+    const months = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+    return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
+  },
+
+  formatDateTime(ts) {
+    const d = new Date(ts);
+    const hh = String(d.getHours()).padStart(2, '0');
+    const mm = String(d.getMinutes()).padStart(2, '0');
+    return `${this.formatDate(ts)} · ${hh}:${mm}`;
+  },
+
+  // YYYY-MM-DD key for the local calendar day, optionally offset by N days
+  // (negative = past). Used as the primary key for db.dailyCheck.
+  todayKey(offsetDays) {
+    const d = new Date();
+    d.setDate(d.getDate() + (offsetDays || 0));
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  },
+
+  haptic(pattern) {
+    if (navigator.vibrate) {
+      try { navigator.vibrate(pattern || 10); } catch (e) { /* not fatal */ }
+    }
+  },
+
+  toast(message) {
+    const container = document.getElementById('toast-container');
+    const el = document.createElement('div');
+    el.className = 'toast';
+    el.textContent = message;
+    container.appendChild(el);
+    setTimeout(() => {
+      el.style.transition = 'opacity .25s';
+      el.style.opacity = '0';
+      setTimeout(() => el.remove(), 260);
+    }, 1800);
+  },
+
+  // Small celebratory burst for streak milestones — a nod to the
+  // confetti reward pattern from earlier Ascend-family apps.
+  confetti() {
+    const colors = ['#D9A441', '#8279E0', '#6C93B8', '#5FB98A'];
+    const container = document.createElement('div');
+    container.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:700;overflow:hidden;';
+    for (let i = 0; i < 24; i++) {
+      const piece = document.createElement('div');
+      const color = colors[i % colors.length];
+      const left = Math.random() * 100;
+      const delay = (Math.random() * 0.25).toFixed(2);
+      const duration = (1.1 + Math.random() * 0.6).toFixed(2);
+      const rotate = Math.round(Math.random() * 360);
+      piece.style.cssText = `position:absolute;top:-12px;left:${left}%;width:7px;height:11px;background:${color};opacity:.9;border-radius:2px;transform:rotate(${rotate}deg);animation:confetti-fall ${duration}s ease-in ${delay}s forwards;`;
+      container.appendChild(piece);
+    }
+    document.body.appendChild(container);
+    setTimeout(() => container.remove(), 2200);
+  },
+
+  confirmDialog(title, message, confirmLabel) {
+    return new Promise((resolve) => {
+      const backdrop = document.createElement('div');
+      backdrop.className = 'confirm-backdrop';
+      backdrop.innerHTML = `
+        <div class="confirm-box">
+          <h3>${this.escapeHtml(title)}</h3>
+          <p>${this.escapeHtml(message)}</p>
+          <div class="confirm-actions">
+            <button data-act="cancel" type="button">Batal</button>
+            <button data-act="ok" type="button" class="confirm-danger-btn">${this.escapeHtml(confirmLabel || 'Hapus')}</button>
+          </div>
+        </div>`;
+      document.body.appendChild(backdrop);
+      backdrop.addEventListener('click', (e) => {
+        if (e.target === backdrop || e.target.dataset.act === 'cancel') {
+          backdrop.remove();
+          resolve(false);
+        } else if (e.target.dataset.act === 'ok') {
+          backdrop.remove();
+          resolve(true);
+        }
+      });
+    });
+  },
+
+  // Resize + compress an image File down to a base64 JPEG string before
+  // it ever touches IndexedDB, so photos stay usable fully offline without
+  // bloating storage (see: photo optimisation note from the brief).
+  fileToCompressedBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onerror = () => reject(reader.error);
+      reader.onload = () => {
+        const img = new Image();
+        img.onerror = reject;
+        img.onload = () => {
+          const max = CONFIG.imageMaxDimension;
+          let { width, height } = img;
+          if (width > max || height > max) {
+            if (width > height) { height = Math.round(height * (max / width)); width = max; }
+            else { width = Math.round(width * (max / height)); height = max; }
+          }
+          const canvas = document.createElement('canvas');
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+          resolve(canvas.toDataURL('image/jpeg', CONFIG.imageQuality));
+        };
+        img.src = reader.result;
+      };
+      reader.readAsDataURL(file);
+    });
+  },
+
+  // Trigger a browser download of a JSON blob (used by Profile → export).
+  downloadJson(filename, dataObj) {
+    const blob = new Blob([JSON.stringify(dataObj, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 2000);
+  },
+
+  readJsonFile(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        try { resolve(JSON.parse(reader.result)); }
+        catch (e) { reject(e); }
+      };
+      reader.onerror = () => reject(reader.error);
+      reader.readAsText(file);
+    });
+  },
+
+  debounce(fn, ms) {
+    let t;
+    return (...args) => {
+      clearTimeout(t);
+      t = setTimeout(() => fn(...args), ms);
+    };
+  },
+
+  // Reusable swipe-to-reveal-delete for single-column list rows (journal,
+  // Gabut Hub). Only the horizontal gesture is intercepted; vertical scroll
+  // passes through untouched via touch-action:pan-y on .swipe-content.
+  attachSwipeToDelete(container, onDeleteConfirmed) {
+    if (!container) return;
+    const REVEAL = 84;
+    container.querySelectorAll('.swipe-content').forEach(el => {
+      let startX = 0, startY = 0, currentX = 0, dragging = false, horizontal = false;
+      el.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+        currentX = 0; dragging = true; horizontal = false;
+        el.style.transition = 'none';
+      }, { passive: true });
+      el.addEventListener('touchmove', (e) => {
+        if (!dragging) return;
+        const dx = e.touches[0].clientX - startX;
+        const dy = e.touches[0].clientY - startY;
+        if (!horizontal && Math.abs(dx) > 8) horizontal = Math.abs(dx) > Math.abs(dy);
+        if (!horizontal) return;
+        currentX = Math.max(Math.min(dx, 0), -REVEAL * 1.4);
+        el.style.transform = `translateX(${currentX}px)`;
+      }, { passive: true });
+      el.addEventListener('touchend', () => {
+        if (!dragging) return;
+        dragging = false;
+        el.style.transition = '';
+        if (currentX < -REVEAL * 0.6) {
+          el.style.transform = `translateX(-${REVEAL}px)`;
+          el.dataset.swiped = 'true';
+        } else {
+          el.style.transform = 'translateX(0)';
+          el.dataset.swiped = 'false';
+        }
+      });
+    });
+    container.querySelectorAll('.swipe-action-delete').forEach(el => {
+      el.addEventListener('click', () => {
+        const wrap = el.closest('.swipe-wrap');
+        onDeleteConfirmed(parseInt(wrap.dataset.swipeId, 10));
+      });
+    });
+  }
+};
+/* =========================================================
+   SECTION: GATE (local PIN lock)
+   Fully offline: PIN is hashed with SHA-256 (Web Crypto) and
+   compared locally. No network required to unlock the app.
+   Note: this is a privacy gate for a single-user personal app,
+   not a defense against someone with full device + devtools access —
+   IndexedDB is always locally inspectable on a device someone controls.
+   ========================================================= */
+const Gate = {
+  mode: 'checking', // 'setup-create' | 'setup-confirm' | 'unlock' | 'locked'
+  currentInput: '',
+  pendingFirstPin: '',
+  lockTimer: null,
+
+  async init() {
+    const hashRow = await db.settings.get('pinHash');
+    if (!hashRow) {
+      this.mode = 'setup-create';
+      this.render();
+      return;
+    }
+    const lockRow = await db.settings.get('lockUntil');
+    if (lockRow && lockRow.value > Date.now()) {
+      this.mode = 'locked';
+      this.render();
+      this.watchLock(lockRow.value);
+    } else {
+      this.mode = 'unlock';
+      this.render();
+    }
+  },
+
+  async hashPin(pin, salt) {
+    const enc = new TextEncoder();
+    const buf = await crypto.subtle.digest('SHA-256', enc.encode(`${salt}:${pin}`));
+    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+  },
+
+  genSalt() {
+    const arr = crypto.getRandomValues(new Uint8Array(16));
+    return Array.from(arr).map(b => b.toString(16).padStart(2, '0')).join('');
+  },
+
+  render() {
+    const title = document.getElementById('gate-title');
+    const subtitle = document.getElementById('gate-subtitle');
+    const resetLink = document.getElementById('gate-reset-link');
+    const errorEl = document.getElementById('gate-error');
+    this.currentInput = '';
+    errorEl.textContent = '';
+    resetLink.classList.add('hidden');
+
+    if (this.mode === 'setup-create') {
+      title.textContent = 'Buat PIN Kamu';
+      subtitle.textContent = 'Pilih 4–6 digit PIN untuk mengunci aplikasi ini secara lokal.';
+    } else if (this.mode === 'setup-confirm') {
+      title.textContent = 'Konfirmasi PIN';
+      subtitle.textContent = 'Masukkan ulang PIN yang sama untuk konfirmasi.';
+    } else if (this.mode === 'unlock') {
+      title.textContent = 'Selamat Datang Kembali';
+      subtitle.textContent = 'Masukkan PIN untuk membuka Ascend.';
+      resetLink.classList.remove('hidden');
+    } else if (this.mode === 'locked') {
+      title.textContent = 'Terkunci Sementara';
+      subtitle.textContent = 'Terlalu banyak percobaan salah. Coba lagi sebentar lagi.';
+    }
+    this.renderDots();
+    this.renderKeypad();
+  },
+
+  renderDots() {
+    const wrap = document.getElementById('pin-dots');
+    wrap.innerHTML = '';
+    const total = Math.max(CONFIG.pinMinLength, this.currentInput.length === CONFIG.pinMaxLength ? CONFIG.pinMaxLength : CONFIG.pinMinLength);
+    for (let i = 0; i < total; i++) {
+      const dot = document.createElement('div');
+      dot.className = 'pin-dot' + (i < this.currentInput.length ? ' filled' : '');
+      wrap.appendChild(dot);
+    }
+  },
+
+  renderKeypad() {
+    const wrap = document.getElementById('pin-keypad');
+    wrap.innerHTML = '';
+    const disabled = this.mode === 'locked';
+    const keys = ['1','2','3','4','5','6','7','8','9','','0','back'];
+    keys.forEach(k => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      if (k === '') {
+        btn.className = 'pin-key key-action';
+        btn.disabled = true;
+        btn.style.visibility = 'hidden';
+      } else if (k === 'back') {
+        btn.className = 'pin-key key-action';
+        btn.innerHTML = '⌫';
+        btn.disabled = disabled;
+        btn.addEventListener('click', () => this.backspace());
+      } else {
+        btn.className = 'pin-key';
+        btn.textContent = k;
+        btn.disabled = disabled;
+        btn.addEventListener('click', () => this.digit(k));
+      }
+      wrap.appendChild(btn);
+    });
+  },
+
+  digit(d) {
+    if (this.currentInput.length >= CONFIG.pinMaxLength) return;
+    Utils.haptic(8);
+    this.currentInput += d;
+    this.renderDots();
+    if (this.currentInput.length >= CONFIG.pinMinLength) {
+      clearTimeout(this._settleTimer);
+      this._settleTimer = setTimeout(() => this.trySubmit(), 220);
+    }
+  },
+
+  backspace() {
+    this.currentInput = this.currentInput.slice(0, -1);
+    document.getElementById('gate-error').textContent = '';
+    this.renderDots();
+  },
+
+  shakeDots() {
+    Utils.haptic([15, 40, 15]);
+    const dots = document.querySelectorAll('.pin-dot');
+    dots.forEach(d => d.classList.add('shake'));
+    setTimeout(() => dots.forEach(d => d.classList.remove('shake')), 400);
+  },
+
+  async trySubmit() {
+    const pin = this.currentInput;
+    if (pin.length < CONFIG.pinMinLength) return;
+
+    if (this.mode === 'setup-create') {
+      this.pendingFirstPin = pin;
+      this.mode = 'setup-confirm';
+      this.render();
+      return;
+    }
+
+    if (this.mode === 'setup-confirm') {
+      if (pin !== this.pendingFirstPin) {
+        document.getElementById('gate-error').textContent = 'PIN tidak cocok, coba lagi dari awal.';
+        this.shakeDots();
+        this.mode = 'setup-create';
+        this.pendingFirstPin = '';
+        setTimeout(() => this.render(), 500);
+        return;
+      }
+      const salt = this.genSalt();
+      const hash = await this.hashPin(pin, salt);
+      await db.settings.bulkPut([
+        { key: 'pinSalt', value: salt },
+        { key: 'pinHash', value: hash },
+        { key: 'failedAttempts', value: 0 }
+      ]);
+      Utils.haptic([10, 30, 10]);
+      Utils.toast('PIN berhasil dibuat');
+      App.unlockApp();
+      return;
+    }
+
+    if (this.mode === 'unlock') {
+      const saltRow = await db.settings.get('pinSalt');
+      const hashRow = await db.settings.get('pinHash');
+      const hash = await this.hashPin(pin, saltRow ? saltRow.value : '');
+      if (hashRow && hash === hashRow.value) {
+        await db.settings.put({ key: 'failedAttempts', value: 0 });
+        Utils.haptic([10, 30, 10]);
+        App.unlockApp();
+      } else {
+        const attemptsRow = await db.settings.get('failedAttempts');
+        const attempts = ((attemptsRow && attemptsRow.value) || 0) + 1;
+        await db.settings.put({ key: 'failedAttempts', value: attempts });
+        this.shakeDots();
+        if (attempts >= CONFIG.maxFailedAttempts) {
+          const until = Date.now() + CONFIG.lockoutMs;
+          await db.settings.put({ key: 'lockUntil', value: until });
+          this.mode = 'locked';
+          this.render();
+          this.watchLock(until);
+        } else {
+          document.getElementById('gate-error').textContent =
+            `PIN salah. Percobaan tersisa: ${CONFIG.maxFailedAttempts - attempts}`;
+          this.currentInput = '';
+          this.renderDots();
+        }
+      }
+      return;
+    }
+  },
+
+  watchLock(until) {
+    clearInterval(this.lockTimer);
+    this.lockTimer = setInterval(async () => {
+      if (Date.now() >= until) {
+        clearInterval(this.lockTimer);
+        await db.settings.bulkPut([{ key: 'lockUntil', value: 0 }, { key: 'failedAttempts', value: 0 }]);
+        this.mode = 'unlock';
+        this.render();
+      } else {
+        const secs = Math.ceil((until - Date.now()) / 1000);
+        document.getElementById('gate-subtitle').textContent = `Coba lagi dalam ${secs} detik.`;
+      }
+    }, 500);
+  },
+
+  async resetAll() {
+    const ok = await Utils.confirmDialog(
+      'Reset semua data?',
+      'Ini akan menghapus PIN dan SEMUA data lokal (jurnal, catatan, vault) secara permanen. Tindakan ini tidak bisa dibatalkan.',
+      'Hapus Semua'
+    );
+    if (!ok) return;
+    await db.delete();
+    location.reload();
+  }
+};
+/* =========================================================
+   SECTION: NAV + OVERLAY
+   Bottom nav (3 tabs), Vault's internal sub-nav (Catatan/Rekomendasi),
+   filter pills, and the single reusable bottom-sheet overlay used by
+   articles, journal editor, note editor, and vault editor alike.
+   ========================================================= */
+const Nav = {
+  init() {
+    document.querySelectorAll('.nav-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        Utils.haptic(8);
+        this.switchTab(btn.dataset.tab);
+      });
+    });
+
+    document.getElementById('subnav-notes').addEventListener('click', () => this.switchVaultSub('vault-notes-panel', 'subnav-notes'));
+    document.getElementById('subnav-reko').addEventListener('click', () => this.switchVaultSub('vault-reko-panel', 'subnav-reko'));
+
+    document.querySelectorAll('#vault-filter-pills .pill').forEach(pill => {
+      pill.addEventListener('click', () => {
+        document.querySelectorAll('#vault-filter-pills .pill').forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+        Vault.render(pill.dataset.filter);
+      });
+    });
+
+    document.getElementById('overlay-close').addEventListener('click', () => this.closeOverlay());
+    document.getElementById('overlay').addEventListener('click', (e) => {
+      if (e.target.id === 'overlay') this.closeOverlay();
+    });
+    this.initDragToDismiss();
+
+    document.getElementById('fab-journal').addEventListener('click', () => Journal.openNew());
+    document.getElementById('fab-note').addEventListener('click', () => Notes.openNew());
+    document.getElementById('fab-vault').addEventListener('click', () => Vault.openNew());
+    document.getElementById('gate-reset-link').addEventListener('click', () => Gate.resetAll());
+  },
+
+  // Drag the sheet's handle down past a threshold to dismiss — the
+  // gesture is scoped to the handle only so it never fights with
+  // scrolling the sheet's own content.
+  initDragToDismiss() {
+    const handle = document.getElementById('overlay-drag-handle');
+    const sheet = document.getElementById('overlay-sheet');
+    let startY = 0, dy = 0, dragging = false;
+    handle.addEventListener('touchstart', (e) => {
+      startY = e.touches[0].clientY; dragging = true; dy = 0;
+      sheet.style.transition = 'none';
+    }, { passive: true });
+    handle.addEventListener('touchmove', (e) => {
+      if (!dragging) return;
+      dy = Math.max(0, e.touches[0].clientY - startY);
+      sheet.style.transform = `translateY(${dy}px)`;
+    }, { passive: true });
+    handle.addEventListener('touchend', () => {
+      if (!dragging) return;
+      dragging = false;
+      sheet.style.transition = '';
+      if (dy > 120) this.closeOverlay();
+      sheet.style.transform = '';
+    });
+  },
+
+  switchTab(tabId) {
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById(tabId).classList.add('active');
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tabId));
+    document.getElementById('app-main').scrollTop = 0;
+  },
+
+  switchVaultSub(panelId, btnId) {
+    document.querySelectorAll('.vault-subpanel').forEach(p => p.classList.add('hidden'));
+    document.getElementById(panelId).classList.remove('hidden');
+    document.querySelectorAll('.subnav-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(btnId).classList.add('active');
+    const thumb = document.getElementById('vault-subnav-thumb');
+    if (thumb) thumb.style.transform = panelId === 'vault-notes-panel' ? 'translateX(0)' : 'translateX(100%)';
+  },
+
+  openOverlay(html) {
+    document.getElementById('overlay-content').innerHTML = html;
+    document.getElementById('overlay').classList.remove('hidden');
+    document.getElementById('overlay-sheet').scrollTop = 0;
+  },
+
+  closeOverlay() {
+    document.getElementById('overlay').classList.add('hidden');
+    document.getElementById('overlay-content').innerHTML = '';
+  }
+};
+/* =========================================================
+   SECTION: ARTICLES
+   Static long-form content for Tab 1 (Fisik & Self-Care) and
+   Tab 2 (Mindset & Jurnal). Rendered into the shared overlay.
+   ========================================================= */
+const ARTICLES = [
+  {
+    id: 'selfcare',
+    tab: 'fisik',
+    accent: '',
+    eyebrow: 'Self-Care',
+    title: 'Cara Merawat Diri: Fondasi Self-Care yang Sering Diabaikan',
+    snippet: 'Definisi, manfaat psikologis & fisik, plus checklist harian.',
+    body: `
+      <h3>Apa Itu Self-Care?</h3>
+      <p>Self-care bukan soal memanjakan diri berlebihan atau bermalas-malasan. Ini tentang secara sadar meluangkan waktu dan energi untuk menjaga kondisi fisik, mental, dan emosional tetap sehat. Self-care adalah investasi, bukan kemewahan — kamu tidak bisa memberi yang terbaik ke orang lain atau ke targetmu sendiri kalau dirimu sendiri kosong dan kelelahan.</p>
+      <h3>Manfaat Psikologis</h3>
+      <ul>
+        <li><strong>Menurunkan stres</strong> — rutinitas self-care yang konsisten membantu menurunkan kadar hormon kortisol dalam tubuh.</li>
+        <li><strong>Meningkatkan harga diri</strong> — merawat diri sendiri secara konsisten adalah bukti nyata bahwa kamu layak diperhatikan, termasuk oleh dirimu sendiri.</li>
+        <li><strong>Mood lebih stabil</strong> — mengurangi risiko burnout saat jadwal padat, baik sekolah, latihan, maupun proyek pribadi.</li>
+        <li><strong>Regulasi emosi lebih baik</strong> — lebih mudah tetap tenang saat menghadapi tekanan atau situasi yang tidak terduga.</li>
+      </ul>
+      <h3>Manfaat Fisik</h3>
+      <ul>
+        <li>Sistem imun lebih kuat karena tubuh cukup istirahat dan terhidrasi.</li>
+        <li>Energi harian lebih stabil, tidak gampang drop di tengah hari.</li>
+        <li>Kulit dan rambut lebih sehat karena kebersihan dan hidrasi terjaga.</li>
+        <li>Performa latihan fisik ikut membaik karena tubuh pulih secara optimal.</li>
+      </ul>
+      <h3>Checklist Penerapan Harian</h3>
+      <ul>
+        <li><strong>Pola tidur</strong> — usahakan 7–9 jam per malam, jam tidur & bangun konsisten termasuk akhir pekan, hindari layar HP minimal 30 menit sebelum tidur.</li>
+        <li><strong>Hidrasi</strong> — minum air putih segera setelah bangun tidur, target minimal 8 gelas (~2 liter) sehari, bawa botol minum saat beraktivitas di luar.</li>
+        <li><strong>Kebersihan diri</strong> — mandi 2x sehari, sikat gigi pagi & malam, cuci muka pagi & malam, ganti pakaian dalam setiap hari, potong kuku secara rutin.</li>
+        <li><strong>Bonus</strong> — sisihkan 5–10 menit refleksi singkat setiap malam untuk menutup hari dengan tenang.</li>
+      </ul>`
+  },
+  {
+    id: 'haircare',
+    tab: 'fisik',
+    accent: '',
+    eyebrow: 'Hair Care',
+    title: 'Cara Merawat Rambut agar Tetap Sehat dan Berkilau',
+    snippet: 'Siklus pertumbuhan, penyebab kerusakan, dan langkah perawatan.',
+    body: `
+      <h3>Mengenal Siklus Pertumbuhan Rambut</h3>
+      <p>Rambut tumbuh melalui tiga fase. <strong>Anagen</strong> adalah fase pertumbuhan aktif yang berlangsung 2–7 tahun — makin lama fase ini, makin panjang rambut bisa tumbuh. <strong>Katagen</strong> adalah fase transisi singkat sekitar 2–3 minggu saat folikel menyusut. <strong>Telogen</strong> adalah fase istirahat sekitar 3 bulan sebelum rambut rontok secara alami dan digantikan helai baru. Rontok 50–100 helai per hari itu normal karena siklus ini terus berjalan.</p>
+      <h3>Penyebab Utama Kerusakan Rambut</h3>
+      <ul>
+        <li>Heat styling berlebihan (catokan, hair dryer suhu tinggi) tanpa pelindung panas.</li>
+        <li>Keramas terlalu sering (menghilangkan minyak alami) atau terlalu jarang (kotoran & minyak menumpuk).</li>
+        <li>Produk dengan kandungan sulfate tinggi yang terlalu keras untuk kulit kepala.</li>
+        <li>Paparan sinar matahari/UV berlebihan tanpa perlindungan.</li>
+        <li>Gesekan kasar dari handuk atau sarung bantal.</li>
+        <li>Gaya rambut terlalu ketat (ponytail/kepang kencang) yang bisa memicu traction alopecia.</li>
+        <li>Kurangnya asupan nutrisi seperti protein, zat besi, dan biotin.</li>
+      </ul>
+      <h3>Langkah Perawatan yang Benar</h3>
+      <ul>
+        <li><strong>Deep conditioning</strong> 1–2x seminggu pakai hair mask untuk mengembalikan kelembapan dari dalam.</li>
+        <li><strong>Teknik keramas yang benar</strong> — basahi rambut sampai merata, tuang shampoo ke telapak tangan lalu pijat lembut ke kulit kepala (bukan langsung ke ujung), fokuskan conditioner hanya di batang sampai ujung rambut dan hindari akar, bilas dengan air suam-suam kuku di akhir untuk menutup kutikula.</li>
+        <li><strong>Cara mengeringkan tanpa merusak</strong> — jangan digosok pakai handuk, cukup ditepuk lembut atau gunakan microfiber towel, hindari blow dry suhu tinggi terlalu dekat ke rambut, sisir rambut basah dari ujung dulu baru ke akar pakai wide-tooth comb, dan selalu pakai heat protectant sebelum styling panas apa pun.</li>
+      </ul>`
+  },
+  {
+    id: 'growthmindset',
+    tab: 'mindset',
+    accent: 'accent-violet',
+    eyebrow: 'Growth Mindset',
+    title: 'Growth Mindset: Mengubah Cara Kamu Memandang Kegagalan',
+    snippet: 'Manfaat pola pikir berkembang dan cara melatihnya.',
+    body: `
+      <h3>Kenapa Growth Mindset Penting?</h3>
+      <p>Growth mindset adalah keyakinan bahwa kemampuan dan kecerdasan bisa dikembangkan lewat usaha, strategi, dan proses belajar — berbeda dengan fixed mindset yang menganggap kemampuan itu bawaan dan sulit berubah. Orang dengan growth mindset lebih tahan banting menghadapi kegagalan, lebih berani mengambil tantangan baru, dan terus berkembang sepanjang hidup karena mereka melihat usaha sebagai jalan menuju penguasaan, bukan tanda kelemahan.</p>
+      <h3>Cara Melatih Growth Mindset</h3>
+      <ul>
+        <li><strong>Ubah kegagalan jadi pelajaran</strong> — setiap kali gagal, tanyakan "apa yang bisa aku pelajari dari ini?", bukan "aku memang tidak bisa". Ganti kalimat "aku tidak bisa melakukan ini" menjadi "aku BELUM bisa melakukan ini" — kata "belum" membuka ruang untuk berkembang.</li>
+        <li><strong>Menyukai tantangan</strong> — keluar dari zona nyaman secara bertahap, misalnya coba variasi latihan atau materi yang sedikit lebih sulit dari biasanya.</li>
+        <li><strong>Fokus pada proses, bukan cuma hasil</strong> — rayakan usaha dan progres kecil, bukan hanya pencapaian akhir, supaya motivasi tetap hidup meski hasil belum maksimal.</li>
+        <li><strong>Terbuka terhadap kritik</strong> — dengarkan masukan tanpa langsung defensif, karena kritik yang membangun adalah bahan bakar untuk berkembang lebih cepat.</li>
+        <li><strong>Terinspirasi, bukan insecure</strong> — saat melihat orang lain lebih maju, jadikan itu bukti bahwa hal itu mungkin dicapai, bukan alasan untuk minder.</li>
+      </ul>`
+  },
+  {
+    id: 'selfcontrol',
+    tab: 'mindset',
+    accent: 'accent-violet',
+    eyebrow: 'Self-Control',
+    title: 'Self-Control & Menjaga Kehormatan Diri',
+    snippet: 'Melatih pengendalian diri dan prinsip menjaga harga diri.',
+    body: `
+      <h3>Cara Meningkatkan Pengendalian Diri</h3>
+      <ul>
+        <li><strong>Terapkan aturan jeda</strong> — setiap kali muncul godaan (scroll HP terus, skip latihan, dll), coba tunda dulu 10 menit sebelum menyerah. Dorongan impulsif sering kali mereda dengan sendirinya.</li>
+        <li><strong>Kenali pemicu (trigger)</strong> — sadari situasi yang biasanya membuatmu kehilangan kendali (bosan, lelah, lingkungan tertentu), lalu atur ulang lingkunganmu supaya godaan itu lebih sulit diakses.</li>
+        <li><strong>Latih dari hal kecil</strong> — self-control itu seperti otot. Makin sering dilatih lewat kebiasaan kecil (misal bangun tepat waktu tanpa snooze), makin kuat kemampuan menahan diri di situasi yang lebih besar.</li>
+        <li><strong>Praktikkan kesadaran diri</strong> — sebelum bereaksi impulsif, tarik napas dan sadari dulu apa yang sedang kamu rasakan sebelum bertindak.</li>
+      </ul>
+      <h3>Menjaga Harga Diri dan Kehormatan di Lingkungan Sosial</h3>
+      <ul>
+        <li><strong>Konsisten antara ucapan dan tindakan</strong> — integritas dibangun dari hal-hal kecil yang kamu tepati, bukan janji besar yang tidak pernah terwujud.</li>
+        <li><strong>Berani menolak</strong> — punya keberanian untuk bilang "tidak" pada hal yang bertentangan dengan nilai atau prinsipmu, meski itu membuat tidak nyaman sesaat.</li>
+        <li><strong>Tidak mudah terpengaruh tekanan sosial</strong> — kamu berhak punya standar sendiri tanpa harus ikut arus demi validasi orang lain.</li>
+        <li><strong>Jaga adab dalam bergaul</strong> — hormati orang lain, jaga ucapan, dan jangan merendahkan diri sendiri hanya demi diterima suatu kelompok.</li>
+      </ul>`
+  }
+];
+
+const Articles = {
+  renderLists() {
+    const fisikWrap = document.getElementById('fisik-articles-list');
+    const mindsetWrap = document.getElementById('mindset-articles-list');
+    fisikWrap.innerHTML = ARTICLES.filter(a => a.tab === 'fisik').map(a => this.cardHtml(a)).join('');
+    mindsetWrap.innerHTML = ARTICLES.filter(a => a.tab === 'mindset').map(a => this.cardHtml(a)).join('');
+    document.querySelectorAll('[data-article-id]').forEach(card => {
+      card.addEventListener('click', () => this.open(card.dataset.articleId));
+    });
+  },
+
+  cardHtml(a) {
+    return `
+      <div class="d-card article-card ${a.accent}" data-article-id="${a.id}">
+        <div class="article-card-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/></svg>
+        </div>
+        <div class="article-card-body">
+          <div class="article-card-title">${Utils.escapeHtml(a.title)}</div>
+          <div class="article-card-snippet">${Utils.escapeHtml(a.snippet)}</div>
+        </div>
+        <div class="article-card-chevron">${ICONS.chevron}</div>
+      </div>`;
+  },
+
+  open(id) {
+    const a = ARTICLES.find(x => x.id === id);
+    if (!a) return;
+    const html = `
+      <div class="reader-eyebrow ${a.accent ? 'accent-violet-text' : ''}">${Utils.escapeHtml(a.eyebrow)}</div>
+      <h2 class="reader-title">${Utils.escapeHtml(a.title)}</h2>
+      <div class="reader-body">${a.body}</div>`;
+    Nav.openOverlay(html);
+  }
+};
+/* =========================================================
+   SECTION: PRODUCTS
+   Seeded reference catalog (Tab 1). The catalog itself isn't
+   user-editable by design (that's what Vault is for) — but each
+   card has a "sudah dicoba" toggle so the list becomes a personal
+   tracker rather than static reading material.
+   ========================================================= */
+const Products = {
+  async render() {
+    const items = await db.products.toArray();
+    const wrap = document.getElementById('fisik-products-list');
+    wrap.innerHTML = items.map(p => `
+      <div class="d-card product-card">
+        <div class="product-top">
+          <span class="product-cat">${Utils.escapeHtml(p.category)}</span>
+          <span class="product-price">${Utils.escapeHtml(p.priceRange)}</span>
+        </div>
+        <div class="product-name">${Utils.escapeHtml(p.name)}</div>
+        <div class="product-ing">Kandungan utama: ${Utils.escapeHtml(p.mainIngredient)}</div>
+        <div class="product-benefit">${Utils.escapeHtml(p.benefit)}</div>
+        <button type="button" class="product-tried-btn${p.tried ? ' on' : ''}" data-product-id="${p.id}">
+          ${p.tried ? ICONS.check + ' Sudah dicoba' : '+ Tandai sudah dicoba'}
+        </button>
+      </div>
+    `).join('');
+    wrap.querySelectorAll('.product-tried-btn').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const id = parseInt(btn.dataset.productId, 10);
+        const p = await db.products.get(id);
+        await db.products.update(id, { tried: !p.tried });
+        Utils.haptic(10);
+        Products.render();
+      });
+    });
+  }
+};
+/* =========================================================
+   SECTION: JOURNAL (Tab 2 — personal daily journal, full CRUD)
+   Fields: timestamp, title, mood, rich-text content, self-control
+   rating + note. Lazy-loaded in pages of CONFIG.pageSize. A weekly
+   ring shows real consistency, and hitting a full 7/7 week triggers
+   a one-time-per-week celebration.
+   ========================================================= */
+const Journal = {
+  offset: 0,
+
+  init() {
+    document.getElementById('journal-load-more').addEventListener('click', () => this.loadMore());
+  },
+
+  async render() {
+    this.offset = 0;
+    const list = document.getElementById('journal-list');
+    const items = await db.journal.orderBy('timestamp').reverse().limit(CONFIG.pageSize).toArray();
+    this.offset = items.length;
+    list.innerHTML = items.map(e => this.itemHtml(e)).join('');
+    this.wireItems();
+    const total = await db.journal.count();
+    document.getElementById('journal-empty').classList.toggle('hidden', total !== 0);
+    document.getElementById('journal-load-more').classList.toggle('hidden', this.offset >= total);
+    this.updateStreak();
+  },
+
+  async loadMore() {
+    const list = document.getElementById('journal-list');
+    const items = await db.journal.orderBy('timestamp').reverse().offset(this.offset).limit(CONFIG.pageSize).toArray();
+    this.offset += items.length;
+    list.insertAdjacentHTML('beforeend', items.map(e => this.itemHtml(e)).join(''));
+    this.wireItems();
+    const total = await db.journal.count();
+    document.getElementById('journal-load-more').classList.toggle('hidden', this.offset >= total);
+  },
+
+  itemHtml(e) {
+    const mood = MOODS.find(m => m.key === e.mood);
+    const plain = (e.content || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+    return `
+      <div class="swipe-wrap" data-swipe-id="${e.id}">
+        <div class="swipe-action-delete">Hapus</div>
+        <div class="d-card accent-violet journal-item swipe-content" data-journal-id="${e.id}">
+          <div class="journal-mood">${mood ? mood.emoji : '📝'}</div>
+          <div class="journal-item-body">
+            <div class="journal-item-top">
+              <div class="journal-item-title">${Utils.escapeHtml(e.title)}</div>
+              <div class="journal-item-date">${Utils.formatDate(e.timestamp)}</div>
+            </div>
+            <div class="journal-item-snippet">${Utils.escapeHtml(plain.slice(0, 140))}</div>
+          </div>
+        </div>
+      </div>`;
+  },
+
+  wireItems() {
+    document.querySelectorAll('[data-journal-id]').forEach(el => {
+      el.addEventListener('click', () => {
+        if (el.dataset.swiped === 'true') {
+          el.style.transform = 'translateX(0)';
+          el.dataset.swiped = 'false';
+          return;
+        }
+        this.openEdit(parseInt(el.dataset.journalId, 10));
+      });
+    });
+    Utils.attachSwipeToDelete(document.getElementById('journal-list'), (id) => this.confirmSwipeDelete(id));
+  },
+
+  async confirmSwipeDelete(id) {
+    const ok = await Utils.confirmDialog('Hapus jurnal ini?', 'Entri jurnal akan dihapus permanen.', 'Hapus');
+    if (!ok) { this.render(); return; }
+    await db.journal.delete(id);
+    Utils.toast('Jurnal dihapus');
+    this.render();
+  },
+
+  async updateStreak() {
+    const now = new Date();
+    const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const sevenDaysAgo = new Date(startOfToday);
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 6);
+    const entries = await db.journal.where('timestamp').aboveOrEqual(sevenDaysAgo.getTime()).toArray();
+    const daysWithEntry = new Set();
+    entries.forEach(e => {
+      const d = new Date(e.timestamp);
+      daysWithEntry.add(`${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`);
+    });
+    const filled = daysWithEntry.size;
+    const circumference = 119.4;
+    const offset = circumference * (1 - filled / 7);
+    document.getElementById('streak-ring-fg').style.strokeDashoffset = String(offset);
+    document.getElementById('streak-ring-label').textContent = `${filled}/7`;
+    const caption = document.getElementById('streak-caption');
+    if (filled === 0) caption.textContent = 'Belum ada jurnal minggu ini';
+    else if (filled >= 7) caption.textContent = 'Konsisten penuh minggu ini';
+    else caption.textContent = `${filled} dari 7 hari terisi`;
+
+    if (filled >= 7) {
+      const weekKey = `celebrated_week_${sevenDaysAgo.getFullYear()}-${sevenDaysAgo.getMonth()}-${sevenDaysAgo.getDate()}`;
+      const already = await db.settings.get(weekKey);
+      if (!already) {
+        await db.settings.put({ key: weekKey, value: true });
+        Utils.haptic([20, 60, 20, 60, 20]);
+        Utils.confetti();
+        Utils.toast('Konsisten penuh minggu ini! 🔥');
+      }
+    }
+  },
+
+  openNew() {
+    Nav.openOverlay(this.editorHtml(null));
+    this.wireEditor(null);
+  },
+
+  async openEdit(id) {
+    const entry = await db.journal.get(id);
+    Nav.openOverlay(this.editorHtml(entry));
+    this.wireEditor(entry);
+  },
+
+  editorHtml(entry) {
+    const isEdit = !!entry;
+    const moodButtons = MOODS.map(m => `<button type="button" class="mood-opt${entry && entry.mood === m.key ? ' selected' : ''}" data-mood="${m.key}" title="${m.label}">${m.emoji}</button>`).join('');
+    const stars = [1, 2, 3, 4, 5].map(n => `<button type="button" class="star-btn${entry && entry.selfControlRating >= n ? ' on' : ''}" data-star="${n}">★</button>`).join('');
+    return `
+      <div class="reader-eyebrow accent-violet-text">${isEdit ? 'Edit Jurnal' : 'Jurnal Baru'}</div>
+      <input type="text" id="je-title" class="text-input title-input" placeholder="Judul jurnal hari ini..." value="${entry ? Utils.escapeHtml(entry.title) : ''}">
+      <label class="form-label">Mood Hari Ini</label>
+      <div class="mood-grid" id="je-mood-grid">${moodButtons}</div>
+      <label class="form-label">Refleksi</label>
+      <div class="rich-toolbar">
+        <button type="button" class="rich-btn" data-cmd="bold"><b>B</b></button>
+        <button type="button" class="rich-btn" data-cmd="italic"><i>I</i></button>
+        <button type="button" class="rich-btn" data-cmd="insertUnorderedList">☰</button>
+      </div>
+      <div id="je-content" class="rich-editable" contenteditable="true" data-placeholder="Tulis refleksi harimu di sini...">${entry ? entry.content : ''}</div>
+      <label class="form-label">Evaluasi Self-Control Hari Ini</label>
+      <div class="star-row" id="je-stars">${stars}</div>
+      <textarea id="je-eval-note" class="eval-note" placeholder="Bagaimana pengendalian dirimu hari ini? (opsional)">${entry ? Utils.escapeHtml(entry.selfControlNote || '') : ''}</textarea>
+      <div class="editor-actions">
+        ${isEdit ? '<button type="button" id="je-delete" class="btn-danger-outline">Hapus</button>' : ''}
+        <button type="button" id="je-save" class="btn-primary">Simpan Jurnal</button>
+      </div>`;
+  },
+
+  wireEditor(entry) {
+    let selectedMood = entry ? entry.mood : null;
+    let selectedStars = entry ? (entry.selfControlRating || 0) : 0;
+
+    document.querySelectorAll('#je-mood-grid .mood-opt').forEach(btn => {
+      btn.addEventListener('click', () => {
+        Utils.haptic(8);
+        document.querySelectorAll('#je-mood-grid .mood-opt').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        selectedMood = btn.dataset.mood;
+      });
+    });
+
+    document.querySelectorAll('#overlay-content .rich-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.getElementById('je-content').focus();
+        document.execCommand(btn.dataset.cmd, false, null);
+      });
+    });
+
+    const starsWrap = document.getElementById('je-stars');
+    const paintStars = () => {
+      starsWrap.querySelectorAll('.star-btn').forEach(b => {
+        b.classList.toggle('on', parseInt(b.dataset.star, 10) <= selectedStars);
+      });
+    };
+    starsWrap.querySelectorAll('.star-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        Utils.haptic(8);
+        selectedStars = parseInt(btn.dataset.star, 10);
+        paintStars();
+      });
+    });
+
+    document.getElementById('je-save').addEventListener('click', async () => {
+      const title = document.getElementById('je-title').value.trim();
+      const content = document.getElementById('je-content').innerHTML.trim();
+      if (!title) { Utils.toast('Judul jurnal belum diisi'); return; }
+      if (!selectedMood) { Utils.toast('Pilih mood hari ini dulu'); return; }
+      const payload = {
+        title,
+        mood: selectedMood,
+        content,
+        selfControlRating: selectedStars,
+        selfControlNote: document.getElementById('je-eval-note').value.trim(),
+        timestamp: entry ? entry.timestamp : Date.now(),
+        updatedAt: Date.now()
+      };
+      if (entry) {
+        await db.journal.update(entry.id, payload);
+        Utils.toast('Jurnal diperbarui');
+      } else {
+        await db.journal.add(payload);
+        Utils.toast('Jurnal disimpan');
+      }
+      Utils.haptic([10, 30, 10]);
+      Nav.closeOverlay();
+      Journal.render();
+    });
+
+    if (entry) {
+      document.getElementById('je-delete').addEventListener('click', async () => {
+        const ok = await Utils.confirmDialog('Hapus jurnal ini?', 'Entri jurnal akan dihapus permanen.', 'Hapus');
+        if (!ok) return;
+        await db.journal.delete(entry.id);
+        Nav.closeOverlay();
+        Journal.render();
+        Utils.toast('Jurnal dihapus');
+      });
+    }
+  }
+};
+/* =========================================================
+   SECTION: NOTES (Tab 3 → Catatan — unlimited Keep-style notes)
+   Text or checklist mode, optional compressed base64 photos,
+   color tag, pin, and a live search box. Rendered as a masonry
+   grid; only the current page of cards is added to the DOM at a
+   time (lazy rendering) so the grid stays smooth even with
+   thousands of notes.
+   ========================================================= */
+const Notes = {
+  allCache: [],
+  cache: [],
+  renderedCount: 0,
+  searchQuery: '',
+
+  init() {
+    document.getElementById('notes-load-more').addEventListener('click', () => this.renderNextBatch());
+    const searchInput = document.getElementById('notes-search');
+    const clearBtn = document.getElementById('notes-search-clear');
+    searchInput.addEventListener('input', Utils.debounce((e) => {
+      this.searchQuery = e.target.value.trim().toLowerCase();
+      clearBtn.classList.toggle('hidden', e.target.value.length === 0);
+      this.applyFilterAndRender();
+    }, 200));
+    clearBtn.addEventListener('click', () => {
+      searchInput.value = '';
+      this.searchQuery = '';
+      clearBtn.classList.add('hidden');
+      this.applyFilterAndRender();
+    });
+  },
+
+  async render() {
+    const all = await db.notes.orderBy('updatedAt').reverse().toArray();
+    all.sort((a, b) => (b.pinned || 0) - (a.pinned || 0)); // stable sort: pinned first, updatedAt desc preserved within groups
+    this.allCache = all;
+    this.applyFilterAndRender();
+  },
+
+  applyFilterAndRender() {
+    const q = this.searchQuery;
+    this.cache = !q ? this.allCache : this.allCache.filter(n => {
+      const plainContent = (n.content || '').replace(/<[^>]+>/g, ' ');
+      const checklistText = (n.checklistItems || []).map(i => i.text).join(' ');
+      return `${n.title || ''} ${plainContent} ${checklistText}`.toLowerCase().includes(q);
+    });
+    this.renderedCount = 0;
+    document.getElementById('notes-grid').innerHTML = '';
+    this.renderNextBatch();
+    document.getElementById('notes-empty').classList.toggle('hidden', this.cache.length !== 0);
+  },
+
+  renderNextBatch() {
+    const grid = document.getElementById('notes-grid');
+    const batch = this.cache.slice(this.renderedCount, this.renderedCount + CONFIG.pageSize);
+    grid.insertAdjacentHTML('beforeend', batch.map(n => this.cardHtml(n)).join(''));
+    this.renderedCount += batch.length;
+    this.wireCards();
+    document.getElementById('notes-load-more').classList.toggle('hidden', this.renderedCount >= this.cache.length);
+  },
+
+  cardHtml(n) {
+    const bg = n.color || '#151923';
+    let bodyHtml;
+    if (n.type === 'checklist' && Array.isArray(n.checklistItems) && n.checklistItems.length) {
+      const items = n.checklistItems.slice(0, 5);
+      bodyHtml = `<ul class="note-card-checklist">${items.map(it => `<li class="${it.checked ? 'checked' : ''}"><span class="mini-check${it.checked ? ' on' : ''}">${it.checked ? ICONS.check : ''}</span> ${Utils.escapeHtml(it.text)}</li>`).join('')}</ul>`;
+      if (n.checklistItems.length > 5) bodyHtml += `<div class="note-card-imgcount">+${n.checklistItems.length - 5} item lainnya</div>`;
+    } else {
+      const plain = (n.content || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+      bodyHtml = `<div class="note-card-body">${Utils.escapeHtml(plain)}</div>`;
+    }
+    let imgHtml = '';
+    if (n.images && n.images.length > 0) {
+      imgHtml = `<img class="note-card-img" src="${n.images[0]}" alt="">`;
+      if (n.images.length > 1) imgHtml += `<div class="note-card-imgcount">+${n.images.length - 1} foto lainnya</div>`;
+    }
+    return `
+      <div class="d-card note-card${n.pinned ? ' pinned' : ''}" style="background:${bg};border-left-color:${n.pinned ? 'var(--gold)' : 'var(--hairline)'}" data-note-id="${n.id}">
+        ${n.title ? `<div class="note-card-title">${Utils.escapeHtml(n.title)}</div>` : ''}
+        ${bodyHtml}
+        ${imgHtml}
+      </div>`;
+  },
+
+  wireCards() {
+    document.querySelectorAll('[data-note-id]').forEach(el => {
+      el.addEventListener('click', () => this.openEdit(parseInt(el.dataset.noteId, 10)));
+    });
+  },
+
+  openNew() {
+    Nav.openOverlay(this.editorHtml(null));
+    this.wireEditor(null);
+  },
+
+  async openEdit(id) {
+    const note = await db.notes.get(id);
+    Nav.openOverlay(this.editorHtml(note));
+    this.wireEditor(note);
+  },
+
+  editorHtml(note) {
+    const isEdit = !!note;
+    const mode = note ? note.type : 'text';
+    const color = note ? (note.color || NOTE_COLORS[0]) : NOTE_COLORS[0];
+    const colorSwatches = NOTE_COLORS.map(c => `<button type="button" class="color-swatch${c === color ? ' selected' : ''}" data-color="${c}" style="background:${c}"></button>`).join('');
+    return `
+      <div class="reader-eyebrow">${isEdit ? 'Edit Catatan' : 'Catatan Baru'}</div>
+      <input type="text" id="ne-title" class="text-input title-input" placeholder="Judul (opsional)..." value="${note ? Utils.escapeHtml(note.title || '') : ''}">
+      <div class="mode-toggle" id="ne-mode-toggle">
+        <span class="segment-thumb" id="ne-mode-thumb" style="transform:translateX(${mode === 'checklist' ? '100%' : '0'})"></span>
+        <button type="button" data-mode="text" class="${mode === 'text' ? 'active' : ''}">Teks</button>
+        <button type="button" data-mode="checklist" class="${mode === 'checklist' ? 'active' : ''}">Checklist</button>
+      </div>
+      <div id="ne-mode-body"></div>
+      <label class="form-label">Foto</label>
+      <div class="image-strip" id="ne-image-strip"></div>
+      <input type="file" id="ne-file-input" accept="image/*" class="hidden" multiple>
+      <label class="form-label">Warna</label>
+      <div class="color-row" id="ne-color-row">${colorSwatches}</div>
+      <div class="editor-actions">
+        ${isEdit ? '<button type="button" id="ne-delete" class="btn-danger-outline">Hapus</button>' : ''}
+        <button type="button" id="ne-pin" class="btn-danger-outline" style="color:var(--gold);border-color:var(--gold-soft);">${note && note.pinned ? 'Lepas Pin' : 'Pin'}</button>
+        <button type="button" id="ne-save" class="btn-primary">Simpan</button>
+      </div>`;
+  },
+
+  wireEditor(note) {
+    let mode = note ? note.type : 'text';
+    let images = note && note.images ? [...note.images] : [];
+    let checklist = note && note.checklistItems ? note.checklistItems.map(i => ({ ...i })) : [];
+    let color = note ? (note.color || NOTE_COLORS[0]) : NOTE_COLORS[0];
+    let pinned = note ? !!note.pinned : false;
+
+    const renderChecklist = () => {
+      const wrap = document.getElementById('ne-checklist');
+      if (!wrap) return;
+      wrap.innerHTML = checklist.map((item, i) => `
+        <div class="checklist-row">
+          <div class="checklist-check${item.checked ? ' checked' : ''}" data-check="${i}">${item.checked ? ICONS.check : ''}</div>
+          <input type="text" value="${Utils.escapeHtml(item.text)}" data-text="${i}" class="${item.checked ? 'done' : ''}" placeholder="Item checklist...">
+          <button type="button" class="checklist-remove" data-remove="${i}">×</button>
+        </div>`).join('');
+      wrap.querySelectorAll('[data-check]').forEach(el => el.addEventListener('click', () => {
+        Utils.haptic(8);
+        const idx = parseInt(el.dataset.check, 10);
+        checklist[idx].checked = !checklist[idx].checked;
+        renderChecklist();
+      }));
+      wrap.querySelectorAll('[data-text]').forEach(el => el.addEventListener('input', () => {
+        checklist[parseInt(el.dataset.text, 10)].text = el.value;
+      }));
+      wrap.querySelectorAll('[data-remove]').forEach(el => el.addEventListener('click', () => {
+        checklist.splice(parseInt(el.dataset.remove, 10), 1);
+        renderChecklist();
+      }));
+    };
+
+    const renderModeBody = () => {
+      const body = document.getElementById('ne-mode-body');
+      if (mode === 'text') {
+        body.innerHTML = `
+          <label class="form-label">Isi Catatan</label>
+          <div class="rich-toolbar">
+            <button type="button" class="rich-btn" data-cmd="bold"><b>B</b></button>
+            <button type="button" class="rich-btn" data-cmd="italic"><i>I</i></button>
+            <button type="button" class="rich-btn" data-cmd="insertUnorderedList">☰</button>
+          </div>
+          <div id="ne-content" class="rich-editable" contenteditable="true" data-placeholder="Tulis catatan...">${note && note.type === 'text' ? (note.content || '') : ''}</div>`;
+        body.querySelectorAll('.rich-btn').forEach(btn => btn.addEventListener('click', () => {
+          document.getElementById('ne-content').focus();
+          document.execCommand(btn.dataset.cmd, false, null);
+        }));
+      } else {
+        body.innerHTML = `
+          <label class="form-label">Checklist</label>
+          <div class="checklist-editor" id="ne-checklist"></div>
+          <button type="button" class="add-checklist-item" id="ne-add-item">+ Tambah item</button>`;
+        renderChecklist();
+        document.getElementById('ne-add-item').addEventListener('click', () => {
+          checklist.push({ text: '', checked: false });
+          renderChecklist();
+        });
+      }
+    };
+
+    const renderImages = () => {
+      const strip = document.getElementById('ne-image-strip');
+      strip.innerHTML = images.map((src, i) => `
+        <div class="image-thumb"><img src="${src}" alt=""><button type="button" class="image-thumb-remove" data-rmimg="${i}">×</button></div>
+      `).join('') + `<button type="button" class="image-add-btn" id="ne-add-img">${ICONS.plus}</button>`;
+      strip.querySelectorAll('[data-rmimg]').forEach(btn => btn.addEventListener('click', () => {
+        images.splice(parseInt(btn.dataset.rmimg, 10), 1);
+        renderImages();
+      }));
+      document.getElementById('ne-add-img').addEventListener('click', () => document.getElementById('ne-file-input').click());
+    };
+
+    document.getElementById('ne-file-input').addEventListener('change', async (e) => {
+      const files = Array.from(e.target.files || []);
+      for (const file of files) {
+        try {
+          images.push(await Utils.fileToCompressedBase64(file));
+        } catch (err) {
+          Utils.toast('Gagal memuat salah satu foto');
+        }
+      }
+      renderImages();
+      e.target.value = '';
+    });
+
+    document.querySelectorAll('#ne-mode-toggle button').forEach(btn => btn.addEventListener('click', () => {
+      Utils.haptic(8);
+      mode = btn.dataset.mode;
+      document.querySelectorAll('#ne-mode-toggle button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('ne-mode-thumb').style.transform = mode === 'checklist' ? 'translateX(100%)' : 'translateX(0)';
+      renderModeBody();
+    }));
+
+    document.querySelectorAll('#ne-color-row .color-swatch').forEach(sw => sw.addEventListener('click', () => {
+      color = sw.dataset.color;
+      document.querySelectorAll('#ne-color-row .color-swatch').forEach(s => s.classList.remove('selected'));
+      sw.classList.add('selected');
+    }));
+
+    const pinBtn = document.getElementById('ne-pin');
+    pinBtn.addEventListener('click', () => {
+      Utils.haptic(8);
+      pinned = !pinned;
+      pinBtn.textContent = pinned ? 'Lepas Pin' : 'Pin';
+    });
+
+    document.getElementById('ne-save').addEventListener('click', async () => {
+      const title = document.getElementById('ne-title').value.trim();
+      const content = mode === 'text' ? document.getElementById('ne-content').innerHTML.trim() : '';
+      const cleanChecklist = mode === 'checklist' ? checklist.filter(i => i.text.trim()) : [];
+      const hasContent = mode === 'text' && content.replace(/<[^>]+>/g, '').trim().length > 0;
+      if (!title && !hasContent && cleanChecklist.length === 0 && images.length === 0) {
+        Utils.toast('Catatan masih kosong');
+        return;
+      }
+      const payload = {
+        title,
+        type: mode,
+        content: mode === 'text' ? content : '',
+        checklistItems: cleanChecklist,
+        images,
+        color,
+        pinned: pinned ? 1 : 0,
+        updatedAt: Date.now()
+      };
+      if (note) {
+        await db.notes.update(note.id, payload);
+        Utils.toast('Catatan diperbarui');
+      } else {
+        payload.createdAt = Date.now();
+        await db.notes.add(payload);
+        Utils.toast('Catatan disimpan');
+      }
+      Utils.haptic([10, 30, 10]);
+      Nav.closeOverlay();
+      Notes.render();
+    });
+
+    if (note) {
+      document.getElementById('ne-delete').addEventListener('click', async () => {
+        const ok = await Utils.confirmDialog('Hapus catatan ini?', 'Catatan akan dihapus permanen.', 'Hapus');
+        if (!ok) return;
+        await db.notes.delete(note.id);
+        Nav.closeOverlay();
+        Notes.render();
+        Utils.toast('Catatan dihapus');
+      });
+    }
+
+    renderModeBody();
+    renderImages();
+  }
+};
+/* =========================================================
+   SECTION: VAULT → "GABUT HUB" (Tab 3 → customizable master DB)
+   4 categories, each with its own field set driven by
+   GABUT_FIELD_SCHEMA (see 00-config.js): Artikel (sumber+tautan),
+   Buku (penulis+catatan), Video (tautan), Film (platform).
+   Add/view/delete (+ edit) with category filter, live search, and
+   a Terbaru/A-Z sort. Seeded on first run with 5 self-improvement
+   books; existing rows from the earlier generic schema are
+   remapped automatically (see the v3 upgrade() in 01-db.js).
+   ========================================================= */
+const Vault = {
+  currentFilter: 'semua',
+  searchQuery: '',
+  sortMode: 'newest',
+
+  init() {
+    const searchInput = document.getElementById('vault-search');
+    const clearBtn = document.getElementById('vault-search-clear');
+    searchInput.addEventListener('input', Utils.debounce((e) => {
+      this.searchQuery = e.target.value.trim().toLowerCase();
+      clearBtn.classList.toggle('hidden', e.target.value.length === 0);
+      this.render();
+    }, 200));
+    clearBtn.addEventListener('click', () => {
+      searchInput.value = '';
+      this.searchQuery = '';
+      clearBtn.classList.add('hidden');
+      this.render();
+    });
+    document.getElementById('vault-sort-btn').addEventListener('click', (e) => {
+      this.sortMode = this.sortMode === 'newest' ? 'az' : 'newest';
+      e.target.textContent = this.sortMode === 'newest' ? 'Terbaru' : 'A–Z';
+      this.render();
+    });
+  },
+
+  async render(filter) {
+    this.currentFilter = filter || this.currentFilter || 'semua';
+    let all = await db.vaultItems.orderBy('createdAt').reverse().toArray();
+    if (this.sortMode === 'az') all = [...all].sort((a, b) => a.title.localeCompare(b.title));
+    let items = this.currentFilter === 'semua' ? all : all.filter(i => i.category === this.currentFilter);
+    if (this.searchQuery) {
+      items = items.filter(i => {
+        const hay = `${i.title} ${i.author || ''} ${i.source || ''} ${i.platform || ''} ${i.notes || ''}`.toLowerCase();
+        return hay.includes(this.searchQuery);
+      });
+    }
+    const wrap = document.getElementById('vault-list');
+    wrap.innerHTML = items.map(i => this.itemHtml(i)).join('');
+    this.wireItems();
+    document.getElementById('vault-empty').classList.toggle('hidden', items.length !== 0);
+  },
+
+  itemHtml(i) {
+    const catLabel = (VAULT_CATEGORIES.find(c => c.key === i.category) || {}).label || i.category;
+    const fields = GABUT_FIELD_SCHEMA[i.category] || [];
+    const metaParts = [];
+    fields.forEach(f => {
+      if (f.key === 'link' || f.key === 'notes') return; // shown separately below
+      if (i[f.key]) metaParts.push(Utils.escapeHtml(i[f.key]));
+    });
+    const hasLinkField = fields.some(f => f.key === 'link');
+    const linkHtml = (hasLinkField && i.link)
+      ? `<a href="${Utils.escapeHtml(i.link)}" target="_blank" rel="noopener" class="vault-link-btn">Buka tautan ${ICONS.chevron}</a>`
+      : '';
+    return `
+      <div class="swipe-wrap" data-swipe-id="${i.id}">
+        <div class="swipe-action-delete">Hapus</div>
+        <div class="d-card accent-steel vault-item swipe-content" data-vault-id="${i.id}">
+          <div class="vault-item-top">
+            <span class="vault-cat-badge">${Utils.escapeHtml(catLabel)}</span>
+          </div>
+          <div class="vault-item-title">${Utils.escapeHtml(i.title)}</div>
+          ${metaParts.length ? `<div class="vault-item-creator">${metaParts.join(' · ')}</div>` : ''}
+          ${i.notes ? `<div class="vault-item-synopsis">${Utils.escapeHtml(i.notes)}</div>` : ''}
+          ${linkHtml}
+        </div>
+      </div>`;
+  },
+
+  wireItems() {
+    document.querySelectorAll('[data-vault-id]').forEach(el => {
+      el.addEventListener('click', () => {
+        if (el.dataset.swiped === 'true') {
+          el.style.transform = 'translateX(0)';
+          el.dataset.swiped = 'false';
+          return;
+        }
+        this.openEdit(parseInt(el.dataset.vaultId, 10));
+      });
+    });
+    document.querySelectorAll('.vault-link-btn').forEach(el => {
+      el.addEventListener('click', (e) => e.stopPropagation());
+    });
+    Utils.attachSwipeToDelete(document.getElementById('vault-list'), (id) => this.confirmSwipeDelete(id));
+  },
+
+  async confirmSwipeDelete(id) {
+    const ok = await Utils.confirmDialog('Hapus item ini?', 'Item akan dihapus permanen dari Gabut Hub.', 'Hapus');
+    if (!ok) { this.render(); return; }
+    await db.vaultItems.delete(id);
+    Utils.toast('Item dihapus');
+    this.render();
+  },
+
+  openNew() {
+    Nav.openOverlay(this.editorHtml(null));
+    this.wireEditor(null);
+  },
+
+  async openEdit(id) {
+    const item = await db.vaultItems.get(id);
+    Nav.openOverlay(this.editorHtml(item));
+    this.wireEditor(item);
+  },
+
+  editorHtml(item) {
+    const isEdit = !!item;
+    const cat = item ? item.category : 'artikel';
+    const catChips = VAULT_CATEGORIES.map(c => `<button type="button" class="select-chip${c.key === cat ? ' selected' : ''}" data-cat="${c.key}">${c.label}</button>`).join('');
+    return `
+      <div class="reader-eyebrow" style="color:var(--steel)">${isEdit ? 'Edit Item' : 'Tambah ke Gabut Hub'}</div>
+      <label class="form-label">Kategori</label>
+      <div class="select-row" id="ve-cat-row">${catChips}</div>
+      <input type="text" id="ve-title" class="text-input title-input" placeholder="Judul..." value="${item ? Utils.escapeHtml(item.title) : ''}">
+      <div id="ve-fields"></div>
+      <div class="editor-actions">
+        ${isEdit ? '<button type="button" id="ve-delete" class="btn-danger-outline">Hapus</button>' : ''}
+        <button type="button" id="ve-save" class="btn-primary">Simpan</button>
+      </div>`;
+  },
+
+  renderFields(category, item) {
+    const wrap = document.getElementById('ve-fields');
+    const fields = GABUT_FIELD_SCHEMA[category] || [];
+    wrap.innerHTML = fields.map(f => `
+      <label class="form-label">${Utils.escapeHtml(f.label)}</label>
+      ${f.multiline
+        ? `<textarea id="ve-f-${f.key}" class="eval-note" placeholder="${Utils.escapeHtml(f.placeholder)}">${item ? Utils.escapeHtml(item[f.key] || '') : ''}</textarea>`
+        : `<input type="${f.type === 'url' ? 'url' : 'text'}" id="ve-f-${f.key}" class="text-input" placeholder="${Utils.escapeHtml(f.placeholder)}" value="${item ? Utils.escapeHtml(item[f.key] || '') : ''}">`
+      }`).join('');
+  },
+
+  wireEditor(item) {
+    let category = item ? item.category : 'artikel';
+
+    document.querySelectorAll('#ve-cat-row .select-chip').forEach(chip => chip.addEventListener('click', () => {
+      Utils.haptic(8);
+      category = chip.dataset.cat;
+      document.querySelectorAll('#ve-cat-row .select-chip').forEach(c => c.classList.remove('selected'));
+      chip.classList.add('selected');
+      this.renderFields(category, category === (item && item.category) ? item : null);
+    }));
+
+    document.getElementById('ve-save').addEventListener('click', async () => {
+      const title = document.getElementById('ve-title').value.trim();
+      if (!title) { Utils.toast('Judul belum diisi'); return; }
+      const payload = { category, title, updatedAt: Date.now() };
+      (GABUT_FIELD_SCHEMA[category] || []).forEach(f => {
+        const el = document.getElementById(`ve-f-${f.key}`);
+        if (el) payload[f.key] = el.value.trim();
+      });
+      if (item) {
+        await db.vaultItems.update(item.id, payload);
+        Utils.toast('Item diperbarui');
+      } else {
+        payload.createdAt = Date.now();
+        await db.vaultItems.add(payload);
+        Utils.toast('Ditambahkan ke Gabut Hub');
+      }
+      Utils.haptic([10, 30, 10]);
+      Nav.closeOverlay();
+      Vault.render();
+    });
+
+    if (item) {
+      document.getElementById('ve-delete').addEventListener('click', async () => {
+        const ok = await Utils.confirmDialog('Hapus item ini?', 'Item akan dihapus permanen dari Gabut Hub.', 'Hapus');
+        if (!ok) return;
+        await db.vaultItems.delete(item.id);
+        Nav.closeOverlay();
+        Vault.render();
+        Utils.toast('Item dihapus');
+      });
+    }
+
+    this.renderFields(category, item);
+  }
+};
+/* =========================================================
+   SECTION: DAILY CHECK (Tab 1 — interactive self-care tracker)
+   Turns the self-care checklist from the article into something
+   users actually tap through every day, with a running streak and
+   milestone celebrations. This is what makes Tab 1 a tool rather
+   than just an article to read once.
+   ========================================================= */
+const DailyCheck = {
+  todayRecord: null,
+
+  async render() {
+    const key = Utils.todayKey();
+    let record = await db.dailyCheck.get(key);
+    if (!record) {
+      record = { date: key, tidur: false, hidrasi: false, kebersihan: false, refleksi: false };
+    }
+    this.todayRecord = record;
+    const wrap = document.getElementById('daily-check-items');
+    wrap.innerHTML = CHECKLIST_ITEMS.map(item => `
+      <div class="checklist-row daily-check-row">
+        <div class="checklist-check${record[item.key] ? ' checked' : ''}" data-check-key="${item.key}">${record[item.key] ? ICONS.check : ''}</div>
+        <span class="${record[item.key] ? 'done' : ''}">${Utils.escapeHtml(item.label)}</span>
+      </div>`).join('');
+    wrap.querySelectorAll('[data-check-key]').forEach(el => {
+      el.addEventListener('click', () => this.toggle(el.dataset.checkKey));
+    });
+    await this.updateStreakBadge();
+  },
+
+  async toggle(key) {
+    this.todayRecord[key] = !this.todayRecord[key];
+    Utils.haptic(12);
+    await db.dailyCheck.put(this.todayRecord);
+    const allDone = CHECKLIST_ITEMS.every(i => this.todayRecord[i.key]);
+    await this.render();
+    if (allDone) {
+      const streak = await this.computeStreak();
+      if (STREAK_MILESTONES.includes(streak)) {
+        Utils.haptic([20, 60, 20, 60, 20]);
+        Utils.confetti();
+        Utils.toast(`Streak self-care ${streak} hari! 🔥`);
+      } else {
+        Utils.toast('Checklist hari ini lengkap!');
+      }
+    }
+  },
+
+  // Current streak: today counts only if fully checked; if today isn't
+  // finished yet the streak from yesterday backward still shows (it's
+  // only "broken" once a full day passes with an incomplete checklist).
+  async computeStreak() {
+    let streak = 0;
+    const todayRecord = await db.dailyCheck.get(Utils.todayKey());
+    if (todayRecord && CHECKLIST_ITEMS.every(it => todayRecord[it.key])) streak++;
+    for (let i = 1; i < 400; i++) {
+      const record = await db.dailyCheck.get(Utils.todayKey(-i));
+      if (record && CHECKLIST_ITEMS.every(it => record[it.key])) {
+        streak++;
+      } else {
+        break;
+      }
+    }
+    return streak;
+  },
+
+  async updateStreakBadge() {
+    const streak = await this.computeStreak();
+    const badge = document.getElementById('daily-check-streak');
+    badge.textContent = streak > 0 ? `🔥 ${streak} hari beruntun` : 'Mulai streak-mu hari ini';
+  }
+};
+/* =========================================================
+   SECTION: ONBOARDING
+   Shown once, right after the app is first unlocked, so a new
+   user immediately understands what each tab is for instead of
+   landing on a wall of content with no context.
+   ========================================================= */
+const ONBOARDING_SLIDES = [
+  {
+    accent: '',
+    icon: 'leaf',
+    title: 'Fisik & Self-Care',
+    text: 'Centang checklist self-care harianmu, baca artikel singkat, dan lihat rekomendasi perawatan rambut.'
+  },
+  {
+    accent: 'accent-violet',
+    icon: 'book',
+    title: 'Mindset & Jurnal',
+    text: 'Tulis refleksi harian, catat mood dan self-control-mu, lalu pantau konsistensimu lewat ring mingguan.'
+  },
+  {
+    accent: 'accent-steel',
+    icon: 'vault',
+    title: 'The Vault',
+    text: 'Catatan bebas gaya Keep lengkap dengan foto, plus daftar buku/film/artikel favorit yang bisa kamu atur sendiri.'
+  }
+];
+
+const Onboarding = {
+  index: 0,
+
+  init() {
+    document.getElementById('onboarding-next').addEventListener('click', async () => {
+      Utils.haptic(10);
+      if (this.index < ONBOARDING_SLIDES.length - 1) {
+        this.index++;
+        this.render();
+      } else {
+        await this.finish();
+      }
+    });
+    document.getElementById('onboarding-skip').addEventListener('click', () => this.finish());
+  },
+
+  async maybeShow() {
+    const row = await db.settings.get('onboarded');
+    if (row && row.value) return;
+    this.index = 0;
+    this.render();
+    document.getElementById('onboarding-screen').classList.remove('hidden');
+  },
+
+  render() {
+    const slide = ONBOARDING_SLIDES[this.index];
+    document.getElementById('onboarding-slides').innerHTML = `
+      <div class="onboarding-slide">
+        <div class="onboarding-icon ${slide.accent}">${this.iconSvg(slide.icon)}</div>
+        <h2>${Utils.escapeHtml(slide.title)}</h2>
+        <p>${Utils.escapeHtml(slide.text)}</p>
+      </div>`;
+    document.getElementById('onboarding-dots').innerHTML = ONBOARDING_SLIDES
+      .map((_, i) => `<span class="onboarding-dot${i === this.index ? ' active' : ''}"></span>`)
+      .join('');
+    document.getElementById('onboarding-next').textContent = this.index === ONBOARDING_SLIDES.length - 1 ? 'Mulai' : 'Lanjut';
+  },
+
+  iconSvg(key) {
+    const map = {
+      leaf: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 4 13V7a1 1 0 0 1 1-1h6a7 7 0 0 1 7 7 7 7 0 0 1-7 7Z"/><path d="M11 20v-9"/><path d="M4 10h4"/></svg>',
+      book: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/></svg>',
+      vault: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="5" rx="1.2"/><path d="M4 9v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9"/><path d="M10 13.5h4"/></svg>'
+    };
+    return map[key] || '';
+  },
+
+  async finish() {
+    await db.settings.put({ key: 'onboarded', value: true });
+    document.getElementById('onboarding-screen').classList.add('hidden');
+  }
+};
+/* =========================================================
+   SECTION: PROFILE / SETTINGS
+   Reached from the new header icon. This is the piece that makes
+   the app feel finished: a real stats overview, PIN management,
+   and a JSON backup/restore flow (important since Cloud Sync is
+   off by default — without this, users had no way to back up
+   their own data at all).
+   ========================================================= */
+const Profile = {
+  init() {
+    document.getElementById('profile-btn').addEventListener('click', () => this.open());
+  },
+
+  async open() {
+    const [journalCount, notesCount, vaultItems, selfCareStreak] = await Promise.all([
+      db.journal.count(),
+      db.notes.count(),
+      db.vaultItems.toArray(),
+      DailyCheck.computeStreak()
+    ]);
+    const vaultDone = vaultItems.filter(v => v.status === 'selesai').length;
+
+    Nav.openOverlay(`
+      <div class="reader-eyebrow">Profil &amp; Pengaturan</div>
+      <h2 class="reader-title" style="font-size:20px;">Ascend</h2>
+
+      <div class="stats-grid">
+        <div class="stat-box"><strong>${selfCareStreak}</strong><span>Hari streak self-care</span></div>
+        <div class="stat-box"><strong>${journalCount}</strong><span>Entri jurnal</span></div>
+        <div class="stat-box"><strong>${notesCount}</strong><span>Catatan tersimpan</span></div>
+        <div class="stat-box"><strong>${vaultDone}/${vaultItems.length}</strong><span>Vault selesai</span></div>
+      </div>
+
+      <label class="form-label">Tampilan</label>
+      <div class="settings-row" id="profile-theme-row">
+        <span>Mode Gelap</span>
+        <button type="button" class="ios-switch${Theme.current === 'dark' ? ' on' : ''}" id="theme-switch" role="switch" aria-checked="${Theme.current === 'dark'}">
+          <span class="ios-switch-knob"></span>
+        </button>
+      </div>
+
+      <label class="form-label">Keamanan</label>
+      <button type="button" class="settings-row" id="profile-change-pin"><span>Ganti PIN</span>${ICONS.chevron}</button>
+
+      <label class="form-label">Data</label>
+      <button type="button" class="settings-row" id="profile-export"><span>Ekspor semua data (.json)</span>${ICONS.chevron}</button>
+      <button type="button" class="settings-row" id="profile-import"><span>Impor data dari file</span>${ICONS.chevron}</button>
+      <input type="file" id="profile-import-file" accept="application/json" class="hidden">
+      <button type="button" class="settings-row" id="profile-reset" style="color:var(--danger);"><span>Reset semua data</span>${ICONS.chevron}</button>
+
+      <label class="form-label">Tentang</label>
+      <p style="font-size:12.5px;line-height:1.6;">Ascend v${CONFIG.appVersion} — 100% offline-first, semua data tersimpan lokal di perangkat ini lewat IndexedDB. Tidak ada data yang terkirim ke server mana pun kecuali kamu aktifkan Cloud Sync sendiri.</p>
+    `);
+    this.wire();
+  },
+
+  wire() {
+    document.getElementById('theme-switch').addEventListener('click', async (e) => {
+      await Theme.toggle();
+      e.currentTarget.classList.toggle('on', Theme.current === 'dark');
+      e.currentTarget.setAttribute('aria-checked', String(Theme.current === 'dark'));
+    });
+    document.getElementById('profile-change-pin').addEventListener('click', () => this.showChangePin());
+    document.getElementById('profile-export').addEventListener('click', () => this.exportData());
+    document.getElementById('profile-import').addEventListener('click', () => document.getElementById('profile-import-file').click());
+    document.getElementById('profile-import-file').addEventListener('change', (e) => this.importData(e));
+    document.getElementById('profile-reset').addEventListener('click', () => Gate.resetAll());
+  },
+
+  showChangePin() {
+    Nav.openOverlay(`
+      <div class="reader-eyebrow">Ganti PIN</div>
+      <h2 class="reader-title" style="font-size:19px;">Ganti PIN Kamu</h2>
+      <label class="form-label">PIN Saat Ini</label>
+      <input type="tel" inputmode="numeric" maxlength="6" id="cp-old" class="text-input" placeholder="PIN lama">
+      <label class="form-label">PIN Baru (4–6 digit)</label>
+      <input type="tel" inputmode="numeric" maxlength="6" id="cp-new" class="text-input" placeholder="PIN baru">
+      <label class="form-label">Konfirmasi PIN Baru</label>
+      <input type="tel" inputmode="numeric" maxlength="6" id="cp-confirm" class="text-input" placeholder="Ulangi PIN baru">
+      <p class="gate-error" id="cp-error" style="text-align:left;height:auto;margin-top:10px;"></p>
+      <div class="editor-actions">
+        <button type="button" id="cp-save" class="btn-primary">Simpan PIN Baru</button>
+      </div>`);
+
+    document.getElementById('cp-save').addEventListener('click', async () => {
+      const oldPin = document.getElementById('cp-old').value.trim();
+      const newPin = document.getElementById('cp-new').value.trim();
+      const confirmPin = document.getElementById('cp-confirm').value.trim();
+      const errorEl = document.getElementById('cp-error');
+      errorEl.textContent = '';
+
+      const saltRow = await db.settings.get('pinSalt');
+      const hashRow = await db.settings.get('pinHash');
+      const oldHash = await Gate.hashPin(oldPin, saltRow ? saltRow.value : '');
+      if (!hashRow || oldHash !== hashRow.value) {
+        errorEl.textContent = 'PIN saat ini salah.';
+        return;
+      }
+      if (newPin.length < CONFIG.pinMinLength || newPin.length > CONFIG.pinMaxLength) {
+        errorEl.textContent = `PIN baru harus ${CONFIG.pinMinLength}-${CONFIG.pinMaxLength} digit.`;
+        return;
+      }
+      if (newPin !== confirmPin) {
+        errorEl.textContent = 'Konfirmasi PIN baru tidak cocok.';
+        return;
+      }
+      const newSalt = Gate.genSalt();
+      const newHash = await Gate.hashPin(newPin, newSalt);
+      await db.settings.bulkPut([{ key: 'pinSalt', value: newSalt }, { key: 'pinHash', value: newHash }]);
+      Utils.haptic([10, 30, 10]);
+      Utils.toast('PIN berhasil diganti');
+      Nav.closeOverlay();
+    });
+  },
+
+  async exportData() {
+    const [journal, notes, vaultItems, products, dailyCheck] = await Promise.all([
+      db.journal.toArray(), db.notes.toArray(), db.vaultItems.toArray(), db.products.toArray(), db.dailyCheck.toArray()
+    ]);
+    Utils.downloadJson(`ascend-backup-${Utils.todayKey()}.json`, {
+      exportedAt: new Date().toISOString(),
+      appVersion: CONFIG.appVersion,
+      journal, notes, vaultItems, products, dailyCheck
+    });
+    Utils.toast('Data berhasil diekspor');
+  },
+
+  async importData(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    try {
+      const data = await Utils.readJsonFile(file);
+      const ok = await Utils.confirmDialog('Impor data?', 'Data dari file akan ditambahkan ke data yang sudah ada (tidak menimpa). Lanjutkan?', 'Impor');
+      if (!ok) { e.target.value = ''; return; }
+      if (Array.isArray(data.journal)) await db.journal.bulkAdd(data.journal.map(({ id, ...rest }) => rest));
+      if (Array.isArray(data.notes)) await db.notes.bulkAdd(data.notes.map(({ id, ...rest }) => rest));
+      if (Array.isArray(data.vaultItems)) await db.vaultItems.bulkAdd(data.vaultItems.map(({ id, ...rest }) => rest));
+      Utils.toast('Impor selesai');
+      Nav.closeOverlay();
+      Journal.render();
+      Notes.render();
+      Vault.render();
+    } catch (err) {
+      Utils.toast('Gagal membaca file — pastikan itu file backup Ascend yang valid');
+    }
+    e.target.value = '';
+  }
+};
+/* =========================================================
+   SECTION: INSTALL PROMPT
+   Custom "Install Ascend" affordance: a header icon-button (always
+   available once installable) plus a one-time animated bottom banner.
+   ========================================================= */
+const InstallPrompt = {
+  deferredEvent: null,
+
+  async init() {
+    window.addEventListener('beforeinstallprompt', async (e) => {
+      e.preventDefault();
+      this.deferredEvent = e;
+      document.getElementById('install-btn').classList.remove('hidden');
+      const dismissed = await db.settings.get('installBannerDismissed');
+      if (!dismissed || !dismissed.value) {
+        setTimeout(() => this.showBanner(), 1200);
+      }
+    });
+    window.addEventListener('appinstalled', () => {
+      document.getElementById('install-btn').classList.add('hidden');
+      this.hideBanner();
+      Utils.toast('Ascend berhasil di-install');
+    });
+    document.getElementById('install-btn').addEventListener('click', () => this.promptInstall());
+    document.getElementById('install-banner-btn').addEventListener('click', () => this.promptInstall());
+    document.getElementById('install-banner-dismiss').addEventListener('click', async () => {
+      await db.settings.put({ key: 'installBannerDismissed', value: true });
+      this.hideBanner();
+    });
+  },
+
+  showBanner() {
+    if (!this.deferredEvent) return;
+    document.getElementById('install-banner').classList.remove('hidden');
+  },
+
+  hideBanner() {
+    document.getElementById('install-banner').classList.add('hidden');
+  },
+
+  async promptInstall() {
+    if (!this.deferredEvent) return;
+    this.hideBanner();
+    this.deferredEvent.prompt();
+    await this.deferredEvent.userChoice;
+    this.deferredEvent = null;
+  }
+};
+
+/* =========================================================
+   SECTION: SERVICE WORKER REGISTRATION
+   ========================================================= */
+const ServiceWorkerManager = {
+  register() {
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register(CONFIG.swPath).catch(() => {
+          /* Offline caching simply won't be active until the app is served
+             over http(s), e.g. GitHub Pages — everything else still works. */
+        });
+      });
+    }
+  }
+};
+
+/* =========================================================
+   SECTION: CLOUD SYNC — optional, OFF by default
+   Ascend is fully usable offline without this. To activate later:
+   create a free Supabase project, add matching journal/notes/
+   vaultItems tables, then set db.settings 'supabaseUrl',
+   'supabaseKey' and 'cloudSyncEnabled' = true (e.g. from a small
+   settings screen you add yourself). This scaffold pushes local
+   rows with last-write-wins on `updatedAt`; it hasn't been tested
+   against a live project, so check the Supabase JS docs before
+   relying on it: https://supabase.com/docs/reference/javascript
+   ========================================================= */
+const CloudSync = {
+  client: null,
+
+  async init() {
+    const enabledRow = await db.settings.get('cloudSyncEnabled');
+    if (!enabledRow || !enabledRow.value) return;
+    if (typeof window.supabase === 'undefined') {
+      console.warn('CloudSync: enabled in settings but the Supabase script tag is not loaded.');
+      return;
+    }
+    const urlRow = await db.settings.get('supabaseUrl');
+    const keyRow = await db.settings.get('supabaseKey');
+    if (!urlRow || !keyRow) return;
+    this.client = window.supabase.createClient(urlRow.value, keyRow.value);
+    if (navigator.onLine) this.sync();
+    window.addEventListener('online', () => this.sync());
+  },
+
+  async sync() {
+    if (!this.client) return;
+    try {
+      await this.pushTable('journal');
+      await this.pushTable('notes');
+      await this.pushTable('vaultItems');
+    } catch (err) {
+      console.warn('CloudSync: sync skipped —', err && err.message);
+    }
+  },
+
+  async pushTable(tableName) {
+    const rows = await db[tableName].toArray();
+    if (!rows.length) return;
+    await this.client.from(tableName).upsert(rows, { onConflict: 'id' });
+  }
+};
+
+/* =========================================================
+   SECTION: APP INIT
+   Boot order: seed DB -> wire static nav/fab/search listeners ->
+   hide boot splash once the gate has decided what to show ->
+   install prompt + cloud sync. Feature modules render (and
+   onboarding is offered) only once the gate is passed.
+   ========================================================= */
+const App = {
+  async init() {
+    document.addEventListener('touchstart', () => {}, { passive: true }); // enables :active on iOS Safari
+    await Theme.init();
+    await seedDatabaseIfEmpty();
+    Nav.init();
+    Journal.init();
+    Notes.init();
+    Vault.init();
+    Onboarding.init();
+    Profile.init();
+    ServiceWorkerManager.register();
+    await Gate.init();
+    document.getElementById('boot-splash').classList.add('hidden');
+    await InstallPrompt.init();
+    CloudSync.init();
+  },
+
+  async unlockApp() {
+    document.getElementById('gate-screen').classList.add('hidden');
+    document.getElementById('app-shell').classList.remove('hidden');
+    Articles.renderLists();
+    await Products.render();
+    await DailyCheck.render();
+    await Journal.render();
+    await Notes.render();
+    await Vault.render('semua');
+    await Onboarding.maybeShow();
+  }
+};
+
+document.addEventListener('DOMContentLoaded', () => App.init());
+/* =========================================================
+   SECTION: THEME (light/dark, smooth iOS-style switching)
+   Default is the app's original dark theme, so returning users
+   see no change. Preference is stored in db.settings and applied
+   via a `data-theme` attribute on <html>, which every color token
+   in styles.css is already scoped to. When the person actively
+   toggles it, we use the View Transitions API for a native-feeling
+   cross-fade where supported, falling back to the plain CSS
+   `transition` on color properties everywhere else.
+   ========================================================= */
+const Theme = {
+  current: 'dark',
+
+  async init() {
+    const row = await db.settings.get('theme');
+    this.current = (row && row.value === 'light') ? 'light' : 'dark';
+    this.apply(this.current, false);
+  },
+
+  apply(mode, animate) {
+    const doApply = () => {
+      document.documentElement.setAttribute('data-theme', mode === 'light' ? 'light' : 'dark');
+      const meta = document.querySelector('meta[name="theme-color"]');
+      if (meta) meta.setAttribute('content', mode === 'light' ? '#F2F2F7' : '#0A0C12');
+      this.current = mode;
+    };
+    if (animate && typeof document.startViewTransition === 'function') {
+      document.startViewTransition(doApply);
+    } else {
+      doApply();
+    }
+  },
+
+  async toggle() {
+    const next = this.current === 'light' ? 'dark' : 'light';
+    Utils.haptic(10);
+    this.apply(next, true);
+    await db.settings.put({ key: 'theme', value: next });
+  }
+};
+</script>
+</body>
+</html>
